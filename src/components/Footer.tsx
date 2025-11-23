@@ -1,0 +1,54 @@
+import { useLanguage } from '@/contexts/LanguageContext';
+import { Mail, Phone, MapPin } from 'lucide-react';
+
+const Footer = () => {
+  const { t } = useLanguage();
+
+  return (
+    <footer className="bg-card border-t border-border">
+      <div className="container mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <h3 className="text-xl font-bold text-primary mb-4">TUBODER</h3>
+            <p className="text-sm text-muted-foreground">
+              {t('hero.subtitle')}
+            </p>
+          </div>
+
+          <div>
+            <h4 className="text-lg font-semibold mb-4">{t('footer.contact')}</h4>
+            <div className="space-y-3">
+              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                <Mail className="h-4 w-4" />
+                <span>info@tuboder.org</span>
+              </div>
+              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                <Phone className="h-4 w-4" />
+                <span>+90 (XXX) XXX XX XX</span>
+              </div>
+              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                <MapPin className="h-4 w-4" />
+                <span>İstanbul, Türkiye</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h4 className="text-lg font-semibold mb-4">{t('nav.events')}</h4>
+            <p className="text-sm text-muted-foreground">
+              {t('about.description')}
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-8 pt-8 border-t border-border text-center">
+          <p className="text-sm text-muted-foreground">
+            © 2025 TUBODER. {t('footer.rights')}
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
