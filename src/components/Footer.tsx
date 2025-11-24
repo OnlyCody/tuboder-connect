@@ -24,11 +24,11 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <Phone className="h-4 w-4" />
-                <span>+90 (XXX) XXX XX XX</span>
+                <span>+38761233995</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <MapPin className="h-4 w-4" />
-                <span>İstanbul, Türkiye</span>
+                <span>Safvet-bega Basagica 27, Sarajevo 71000</span>
               </div>
             </div>
           </div>
