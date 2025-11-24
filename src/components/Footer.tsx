@@ -26,9 +26,9 @@ const Footer = () => {
                 <Phone className="h-4 w-4" />
                 <span>+38761233995</span>
               </div>
-              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                <MapPin className="h-4 w-4" />
-                <span>Safvet-bega Basagica 27, Sarajevo 71000</span>
+              <div className="flex items-start space-x-2 text-sm text-muted-foreground">
+                <MapPin className="h-4 w-4 mt-0.5" />
+                <span>Safvet-bega Bašagića 27<br />Sarajevo 71000</span>
               </div>
             </div>
           </div>
