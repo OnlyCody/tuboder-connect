@@ -2,14 +2,55 @@ import MainLayout from '@/components/layout/MainLayout';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { ArrowRight, Calendar, Users, Image as ImageIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import Autoplay from 'embla-carousel-autoplay';
 
 const Index = () => {
   const { t } = useLanguage();
 
+  const carouselItems = [
+    { titleKey: 'carousel.item1.title', descriptionKey: 'carousel.item1.description' },
+    { titleKey: 'carousel.item2.title', descriptionKey: 'carousel.item2.description' },
+    { titleKey: 'carousel.item3.title', descriptionKey: 'carousel.item3.description' },
+  ];
+
   return (
     <MainLayout>
+      {/* Carousel Section */}
+      <section className="bg-secondary/20 py-8">
+        <div className="container mx-auto px-4">
+          <Carousel
+            opts={{
+              align: 'start',
+              loop: true,
+            }}
+            plugins={[
+              Autoplay({
+                delay: 4000,
+              }),
+            ]}
+            className="w-full max-w-5xl mx-auto"
+          >
+            <CarouselContent>
+              {carouselItems.map((item, index) => (
+                <CarouselItem key={index}>
+                  <Card className="shadow-elegant">
+                    <CardContent className="flex flex-col items-center justify-center p-12 text-center min-h-[300px]">
+                      <h3 className="text-3xl font-bold mb-4">{t(item.titleKey)}</h3>
+                      <p className="text-lg text-muted-foreground">{t(item.descriptionKey)}</p>
+                    </CardContent>
+                  </Card>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+        </div>
+      </section>
+
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-hero-gradient text-primary-foreground">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMzYgMzRjMC0yLjIxLTEuNzktNC00LTRzLTQgMS43OS00IDQgMS43OSA0IDQgNCA0LTEuNzkgNC00em0wLTEwYzAtMi4yMS0xLjc5LTQtNC00cy00IDEuNzktNCA0IDEuNzkgNCA0IDQgNC0xLjc5IDQtNHptLTEwIDBjMC0yLjIxLTEuNzktNC00LTRzLTQgMS43OS00IDQgMS43OSA0IDQgNCA0LTEuNzkgNC00eiIvPjwvZz48L2c+PC9zdmc+')] opacity-30"></div>
