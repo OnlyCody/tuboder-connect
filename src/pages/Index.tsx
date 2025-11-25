@@ -18,6 +18,27 @@ const Index = () => {
 
   return (
     <MainLayout>
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-hero-gradient text-primary-foreground">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMzYgMzRjMC0yLjIxLTEuNzktNC00LTRzLTQgMS43OS00IDQgMS43OSA0IDQgNCA0LTEuNzkgNC00em0wLTEwYzAtMi4yMS0xLjc5LTQtNC00cy00IDEuNzktNCA0IDEuNzkgNCA0IDQgNC0xLjc5IDQtNHptLTEwIDBjMC0yLjIxLTEuNzktNC00LTRzLTQgMS43OS00IDQgMS43OSA0IDQgNCA0LTEuNzkgNC00eiIvPjwvZz48L2c+PC9zdmc+')] opacity-30"></div>
+        <div className="container mx-auto px-4 py-24 relative z-10">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in">
+              {t('hero.title')}
+            </h1>
+            <p className="text-xl md:text-2xl mb-8 text-primary-foreground/90">
+              {t('hero.subtitle')}
+            </p>
+            <Link to="/about">
+              <Button size="lg" variant="secondary" className="group">
+                {t('hero.cta')}
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Carousel Section */}
       <section className="bg-secondary/20 py-8">
         <div className="container mx-auto px-4">
@@ -48,27 +69,6 @@ const Index = () => {
             <CarouselPrevious />
             <CarouselNext />
           </Carousel>
-        </div>
-      </section>
-
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-hero-gradient text-primary-foreground">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMzYgMzRjMC0yLjIxLTEuNzktNC00LTRzLTQgMS43OS00IDQgMS43OSA0IDQgNCA0LTEuNzkgNC00em0wLTEwYzAtMi4yMS0xLjc5LTQtNC00cy00IDEuNzktNCA0IDEuNzkgNCA0IDQgNC0xLjc5IDQtNHptLTEwIDBjMC0yLjIxLTEuNzktNC00LTRzLTQgMS43OS00IDQgMS43OSA0IDQgNCA0LTEuNzkgNC00eiIvPjwvZz48L2c+PC9zdmc+')] opacity-30"></div>
-        <div className="container mx-auto px-4 py-24 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in">
-              {t('hero.title')}
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 text-primary-foreground/90">
-              {t('hero.subtitle')}
-            </p>
-            <Link to="/about">
-              <Button size="lg" variant="secondary" className="group">
-                {t('hero.cta')}
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </Link>
-          </div>
         </div>
       </section>
 
