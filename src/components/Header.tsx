@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, Globe } from 'lucide-react';
+import { Menu, X, Globe, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/hooks/useAuth';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,6 +14,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
+  const { user, isAdmin } = useAuth();
 
   const languages = [
     { code: 'tr', name: 'Türkçe' },
@@ -52,6 +54,24 @@ const Header = () => {
           </nav>
 
           <div className="flex items-center space-x-4">
+            {/* Admin/Auth Button */}
+            {user && isAdmin && (
+              <Link to="/admin">
+                <Button variant="outline" size="sm">
+                  <User className="h-4 w-4 mr-2" />
+                  Admin Panel
+                </Button>
+              </Link>
+            )}
+            {!user && (
+              <Link to="/auth">
+                <Button variant="outline" size="sm">
+                  <User className="h-4 w-4 mr-2" />
+                  Giriş
+                </Button>
+              </Link>
+            )}
+            
             {/* Language Selector */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
