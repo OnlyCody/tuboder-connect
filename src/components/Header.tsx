@@ -26,6 +26,7 @@ const Header = () => {
     { key: 'board', path: '/board' },
     { key: 'membership', path: '/membership' },
     { key: 'events', path: '/events' },
+    { key: 'news', path: '/news' },
     { key: 'gallery', path: '/gallery' },
   ];
 
