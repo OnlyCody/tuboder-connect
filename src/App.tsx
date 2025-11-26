@@ -14,6 +14,7 @@ import Events from "./pages/Events";
 import News from "./pages/News";
 import Gallery from "./pages/Gallery";
 import AdminPanel from "./pages/AdminPanel";
+import AdminCarousel from "./pages/admin/AdminCarousel";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -35,6 +36,14 @@ const App = () => (
               <Route path="/news" element={<News />} />
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/yonetici-paneli" element={<AdminPanel />} />
+              <Route 
+                path="/yonetici-paneli/carousel" 
+                element={
+                  <ProtectedRoute requireAdmin>
+                    <AdminCarousel />
+                  </ProtectedRoute>
+                } 
+              />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
