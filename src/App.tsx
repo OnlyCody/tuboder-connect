@@ -13,8 +13,7 @@ import Membership from "./pages/Membership";
 import Events from "./pages/Events";
 import News from "./pages/News";
 import Gallery from "./pages/Gallery";
-import Auth from "./pages/Auth";
-import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminPanel from "./pages/AdminPanel";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -35,15 +34,7 @@ const App = () => (
               <Route path="/events" element={<Events />} />
               <Route path="/news" element={<News />} />
               <Route path="/gallery" element={<Gallery />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route 
-                path="/admin" 
-                element={
-                  <ProtectedRoute requireAdmin>
-                    <AdminDashboard />
-                  </ProtectedRoute>
-                } 
-              />
+              <Route path="/yonetici-paneli" element={<AdminPanel />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

@@ -54,20 +54,12 @@ const Header = () => {
           </nav>
 
           <div className="flex items-center space-x-4">
-            {/* Admin/Auth Button */}
+            {/* Admin Button */}
             {user && isAdmin && (
-              <Link to="/admin">
+              <Link to="/yonetici-paneli">
                 <Button variant="outline" size="sm">
                   <User className="h-4 w-4 mr-2" />
-                  Admin Panel
-                </Button>
-              </Link>
-            )}
-            {!user && (
-              <Link to="/auth">
-                <Button variant="outline" size="sm">
-                  <User className="h-4 w-4 mr-2" />
-                  Giriş
+                  Yönetim Paneli
                 </Button>
               </Link>
             )}

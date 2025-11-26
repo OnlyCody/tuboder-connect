@@ -20,12 +20,12 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
   const location = useLocation();
 
   const menuItems = [
-    { icon: LayoutDashboard, label: 'Dashboard', path: '/admin' },
-    { icon: Megaphone, label: 'Carousel', path: '/admin/carousel' },
-    { icon: Newspaper, label: 'Haberler', path: '/admin/news' },
-    { icon: Users, label: 'Yönetim Kurulu', path: '/admin/board' },
-    { icon: Calendar, label: 'Etkinlikler', path: '/admin/events' },
-    { icon: Image, label: 'Galeri', path: '/admin/gallery' },
+    { icon: LayoutDashboard, label: 'Dashboard', path: '/yonetici-paneli' },
+    { icon: Megaphone, label: 'Carousel', path: '/yonetici-paneli/carousel' },
+    { icon: Newspaper, label: 'Haberler', path: '/yonetici-paneli/news' },
+    { icon: Users, label: 'Yönetim Kurulu', path: '/yonetici-paneli/board' },
+    { icon: Calendar, label: 'Etkinlikler', path: '/yonetici-paneli/events' },
+    { icon: Image, label: 'Galeri', path: '/yonetici-paneli/gallery' },
   ];
 
   return (
