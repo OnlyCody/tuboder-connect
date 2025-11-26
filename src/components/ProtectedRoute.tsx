@@ -21,7 +21,7 @@ const ProtectedRoute = ({ children, requireAdmin = false }: ProtectedRouteProps)
   }
 
   if (!user) {
-    return <Navigate to="/auth" replace />;
+    return <Navigate to="/yonetici-paneli" replace />;
   }
 
   if (requireAdmin && !isAdmin) {
