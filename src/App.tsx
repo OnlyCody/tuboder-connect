@@ -15,6 +15,7 @@ import News from "./pages/News";
 import Gallery from "./pages/Gallery";
 import AdminPanel from "./pages/AdminPanel";
 import AdminCarousel from "./pages/admin/AdminCarousel";
+import AdminNews from "./pages/admin/AdminNews";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -41,6 +42,14 @@ const App = () => (
                 element={
                   <ProtectedRoute requireAdmin>
                     <AdminCarousel />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/yonetici-paneli/news" 
+                element={
+                  <ProtectedRoute requireAdmin>
+                    <AdminNews />
                   </ProtectedRoute>
                 } 
               />
