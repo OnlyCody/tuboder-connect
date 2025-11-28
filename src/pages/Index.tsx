@@ -6,15 +6,25 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { ArrowRight, Calendar, Users, Image as ImageIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Autoplay from 'embla-carousel-autoplay';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 
 const Index = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
-  const carouselItems = [
-    { titleKey: 'carousel.item1.title', descriptionKey: 'carousel.item1.description' },
-    { titleKey: 'carousel.item2.title', descriptionKey: 'carousel.item2.description' },
-    { titleKey: 'carousel.item3.title', descriptionKey: 'carousel.item3.description' },
-  ];
+  const { data: carouselItems = [] } = useQuery({
+    queryKey: ['carousel-items'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('carousel_items')
+        .select('*')
+        .eq('is_active', true)
+        .order('display_order');
+      
+      if (error) throw error;
+      return data || [];
+    },
+  });
 
   return (
     <MainLayout>
@@ -55,16 +65,24 @@ const Index = () => {
             className="w-full max-w-5xl mx-auto"
           >
             <CarouselContent>
-              {carouselItems.map((item, index) => (
-                <CarouselItem key={index}>
-                  <Card className="shadow-elegant">
-                    <CardContent className="flex flex-col items-center justify-center p-12 text-center min-h-[300px]">
-                      <h3 className="text-3xl font-bold mb-4">{t(item.titleKey)}</h3>
-                      <p className="text-lg text-muted-foreground">{t(item.descriptionKey)}</p>
-                    </CardContent>
-                  </Card>
-                </CarouselItem>
-              ))}
+              {carouselItems.map((item) => {
+                const title = language === 'tr' ? item.title_tr : language === 'en' ? item.title_en : item.title_bs;
+                const description = language === 'tr' ? item.description_tr : language === 'en' ? item.description_en : item.description_bs;
+                
+                return (
+                  <CarouselItem key={item.id}>
+                    <Card className="shadow-elegant">
+                      <CardContent className="flex flex-col items-center justify-center p-12 text-center min-h-[300px]">
+                        {item.image_url && (
+                          <img src={item.image_url} alt={title} className="w-full h-48 object-cover rounded-lg mb-4" />
+                        )}
+                        <h3 className="text-3xl font-bold mb-4">{title}</h3>
+                        <p className="text-lg text-muted-foreground">{description}</p>
+                      </CardContent>
+                    </Card>
+                  </CarouselItem>
+                );
+              })}
             </CarouselContent>
             <CarouselPrevious />
             <CarouselNext />
