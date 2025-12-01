@@ -12,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { Plus, Pencil, Trash2, X } from 'lucide-react';
 import { z } from 'zod';
+import { transformGoogleDriveUrl } from '@/lib/utils';
 
 const carouselSchema = z.object({
   title_tr: z.string().min(1, 'Türkçe başlık gereklidir').max(200),
@@ -141,6 +142,11 @@ const AdminCarousel = () => {
     
     try {
       const validatedData = carouselSchema.parse(formData);
+      
+      // Google Drive URL'lerini otomatik dönüştür
+      if (validatedData.image_url) {
+        validatedData.image_url = transformGoogleDriveUrl(validatedData.image_url);
+      }
       
       if (editingId) {
         updateMutation.mutate({ id: editingId, data: validatedData });
