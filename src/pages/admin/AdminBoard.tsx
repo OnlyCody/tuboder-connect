@@ -27,6 +27,7 @@ import { Plus, Pencil, Trash2, ArrowUp, ArrowDown } from 'lucide-react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { transformGoogleDriveUrl } from '@/lib/utils';
 import {
   Form,
   FormControl,
@@ -177,6 +178,11 @@ const AdminBoard = () => {
   });
 
   const onSubmit = (data: BoardMemberFormData) => {
+    // Google Drive URL'lerini otomatik dönüştür
+    if (data.photo_url) {
+      data.photo_url = transformGoogleDriveUrl(data.photo_url);
+    }
+    
     if (editingMember) {
       updateMutation.mutate({ id: editingMember.id, data });
     } else {

@@ -27,6 +27,7 @@ import { Plus, Pencil, Trash2 } from 'lucide-react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { transformGoogleDriveUrl } from '@/lib/utils';
 import {
   Form,
   FormControl,
@@ -176,6 +177,11 @@ const AdminEvents = () => {
   });
 
   const onSubmit = (data: EventFormData) => {
+    // Google Drive URL'lerini otomatik dönüştür
+    if (data.image_url) {
+      data.image_url = transformGoogleDriveUrl(data.image_url);
+    }
+    
     if (editingEvent) {
       updateMutation.mutate({ id: editingEvent.id, data });
     } else {
