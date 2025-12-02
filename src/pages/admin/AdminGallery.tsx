@@ -227,10 +227,12 @@ const AdminGallery = () => {
     reorderMutation.mutate({ id: nextItem.id, newOrder: item.display_order });
   };
 
-  const handleDialogClose = () => {
-    setIsDialogOpen(false);
-    setEditingItem(null);
-    form.reset();
+  const handleDialogChange = (open: boolean) => {
+    setIsDialogOpen(open);
+    if (!open) {
+      setEditingItem(null);
+      form.reset();
+    }
   };
 
   return (
@@ -238,9 +240,9 @@ const AdminGallery = () => {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold">Galeri Yönetimi</h1>
-          <Dialog open={isDialogOpen} onOpenChange={handleDialogClose}>
+          <Dialog open={isDialogOpen} onOpenChange={handleDialogChange}>
             <DialogTrigger asChild>
-              <Button onClick={() => setIsDialogOpen(true)}>
+              <Button>
                 <Plus className="h-4 w-4 mr-2" />
                 Fotoğraf Ekle
               </Button>
@@ -438,7 +440,7 @@ const AdminGallery = () => {
                   />
 
                   <div className="flex justify-end gap-4">
-                    <Button type="button" variant="outline" onClick={handleDialogClose}>
+                    <Button type="button" variant="outline" onClick={() => handleDialogChange(false)}>
                       İptal
                     </Button>
                     <Button type="submit" disabled={createMutation.isPending || updateMutation.isPending}>
