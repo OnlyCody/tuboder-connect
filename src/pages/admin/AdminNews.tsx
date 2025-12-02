@@ -203,10 +203,12 @@ const AdminNews = () => {
     }
   };
 
-  const handleDialogClose = () => {
-    setIsDialogOpen(false);
-    setEditingNews(null);
-    form.reset();
+  const handleDialogChange = (open: boolean) => {
+    setIsDialogOpen(open);
+    if (!open) {
+      setEditingNews(null);
+      form.reset();
+    }
   };
 
   return (
@@ -214,9 +216,9 @@ const AdminNews = () => {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold">Haberler Yönetimi</h1>
-          <Dialog open={isDialogOpen} onOpenChange={handleDialogClose}>
+          <Dialog open={isDialogOpen} onOpenChange={handleDialogChange}>
             <DialogTrigger asChild>
-              <Button onClick={() => setIsDialogOpen(true)}>
+              <Button>
                 <Plus className="h-4 w-4 mr-2" />
                 Haber Ekle
               </Button>
@@ -410,7 +412,7 @@ const AdminNews = () => {
                   />
 
                   <div className="flex justify-end gap-4">
-                    <Button type="button" variant="outline" onClick={handleDialogClose}>
+                    <Button type="button" variant="outline" onClick={() => handleDialogChange(false)}>
                       İptal
                     </Button>
                     <Button type="submit" disabled={createMutation.isPending || updateMutation.isPending}>
