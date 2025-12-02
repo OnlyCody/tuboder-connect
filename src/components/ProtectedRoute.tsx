@@ -1,5 +1,7 @@
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
+import { Button } from '@/components/ui/button';
+import { LogIn } from 'lucide-react';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -20,16 +22,26 @@ const ProtectedRoute = ({ children, requireAdmin = false }: ProtectedRouteProps)
     );
   }
 
+  // Redirect to login if no user
   if (!user) {
     return <Navigate to="/yonetici-paneli" replace />;
   }
 
+  // Show unauthorized page with login option if user lacks admin role
   if (requireAdmin && !isAdmin) {
+    const handleGoToLogin = () => {
+      window.location.href = '/yonetici-paneli';
+    };
+
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-2">Yetkisiz Erişim</h1>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center space-y-4">
+          <h1 className="text-2xl font-bold">Yetkisiz Erişim</h1>
           <p className="text-muted-foreground">Bu sayfaya erişim yetkiniz bulunmamaktadır.</p>
+          <Button onClick={handleGoToLogin} className="mt-4">
+            <LogIn className="h-4 w-4 mr-2" />
+            Giriş Sayfasına Git
+          </Button>
         </div>
       </div>
     );
