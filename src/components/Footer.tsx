@@ -42,7 +42,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="text-lg font-semibold mb-4">{t('nav.events')}</h4>
+            <h4 className="text-lg font-semibold mb-4">{t('nav.about')}</h4>
             <p className="text-sm text-muted-foreground">
               {t('about.description')}
             </p>
