@@ -56,23 +56,21 @@ const News = () => {
               
               return (
                 <Card key={news.id} className="shadow-elegant hover:shadow-glow transition-all">
-                  {news.image_url && (
-                    <div className="w-full aspect-square overflow-hidden rounded-t-lg">
-                      <img src={transformGoogleDriveUrl(news.image_url)} alt={title} className="w-full h-full object-cover" />
+                  <div className="flex">
+                    <div className="flex-1 p-6">
+                      <div className="flex items-center space-x-2 text-muted-foreground mb-2">
+                        <Calendar className="h-4 w-4" />
+                        <span className="text-sm">{format(new Date(news.published_date), 'dd.MM.yyyy')}</span>
+                      </div>
+                      <h3 className="text-2xl font-semibold mb-2">{title}</h3>
+                      <p className="text-muted-foreground">{description}</p>
                     </div>
-                  )}
-                  <CardHeader>
-                    <div className="flex items-center space-x-2 text-muted-foreground mb-2">
-                      <Calendar className="h-4 w-4" />
-                      <span className="text-sm">{format(new Date(news.published_date), 'dd.MM.yyyy')}</span>
-                    </div>
-                    <CardTitle className="text-2xl">{title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription className="text-base">
-                      {description}
-                    </CardDescription>
-                  </CardContent>
+                    {news.image_url && (
+                      <div className="w-40 h-40 flex-shrink-0 overflow-hidden rounded-r-lg">
+                        <img src={transformGoogleDriveUrl(news.image_url)} alt={title} className="w-full h-full object-cover" />
+                      </div>
+                    )}
+                  </div>
                 </Card>
               );
             })
