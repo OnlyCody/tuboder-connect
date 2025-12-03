@@ -232,8 +232,8 @@ const Index = () => {
                   ) : (
                     <CarouselItem>
                       <Card className="shadow-elegant">
-                        <CardContent className="p-6 aspect-square flex items-center justify-center text-muted-foreground">
-                          {language === 'tr' ? 'Henüz duyuru yok' : language === 'en' ? 'No announcements' : 'Nema obavještenja'}
+                        <CardContent className="p-6 aspect-square flex items-center justify-center text-muted-foreground text-center">
+                          {language === 'tr' ? 'Bu alana reklam verebilirsiniz' : language === 'en' ? 'You can advertise here' : 'Možete oglašavati ovdje'}
                         </CardContent>
                       </Card>
                     </CarouselItem>
