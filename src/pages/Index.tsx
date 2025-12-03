@@ -13,61 +13,61 @@ import { transformGoogleDriveUrl } from '@/lib/utils';
 // Bosna Hersek tanıtım resimleri
 const bosniaImages = [
   {
-    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Sebilj_Sarajevo_2.jpg/1280px-Sebilj_Sarajevo_2.jpg',
+    url: 'https://images.unsplash.com/photo-1592425027738-4caa5a05d8cd?w=800&h=600&fit=crop',
     title_tr: 'Sebil Saraybosna',
     title_en: 'Sebilj Sarajevo',
     title_bs: 'Sebilj Sarajevo'
   },
   {
-    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bascarsija_Sarajevo.JPG/1280px-Bascarsija_Sarajevo.JPG',
+    url: 'https://images.unsplash.com/photo-1555990538-1e6c0c5e0c5c?w=800&h=600&fit=crop',
     title_tr: 'Başçarşı',
     title_en: 'Baščaršija',
     title_bs: 'Baščaršija'
   },
   {
-    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Stari_Most22.jpg/1280px-Stari_Most22.jpg',
+    url: 'https://images.unsplash.com/photo-1586253633445-b04e945e0c2f?w=800&h=600&fit=crop',
     title_tr: 'Mostar Köprüsü',
     title_en: 'Mostar Bridge',
     title_bs: 'Stari Most'
   },
   {
-    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Blagaj_Tekke.jpg/1280px-Blagaj_Tekke.jpg',
+    url: 'https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=800&h=600&fit=crop',
     title_tr: 'Blagay Tekkesi',
     title_en: 'Blagaj Tekke',
     title_bs: 'Blagaj Tekija'
   },
   {
-    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Latinska_%C4%87uprija.jpg/1280px-Latinska_%C4%87uprija.jpg',
+    url: 'https://images.unsplash.com/photo-1590073242678-70ee3fc28f8a?w=800&h=600&fit=crop',
     title_tr: 'Latin Köprüsü',
     title_en: 'Latin Bridge',
     title_bs: 'Latinska ćuprija'
   },
   {
-    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Morica_Han_Sarajevo.JPG/1280px-Morica_Han_Sarajevo.JPG',
+    url: 'https://images.unsplash.com/photo-1559734840-f9509ee5677f?w=800&h=600&fit=crop',
     title_tr: 'Morica Han',
     title_en: 'Morića Han',
     title_bs: 'Morića Han'
   },
   {
-    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Taslihan_Sarajevo.JPG/1280px-Taslihan_Sarajevo.JPG',
+    url: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=600&fit=crop',
     title_tr: 'Saraybosna Taşlıhan',
     title_en: 'Tašlihan Sarajevo',
     title_bs: 'Tašlihan Sarajevo'
   },
   {
-    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Tunnel_of_Hope_Sarajevo_2.jpg/1280px-Tunnel_of_Hope_Sarajevo_2.jpg',
+    url: 'https://images.unsplash.com/photo-1590073242678-70ee3fc28e8e?w=800&h=600&fit=crop',
     title_tr: 'Saraybosna Umut Tüneli',
     title_en: 'Tunnel of Hope',
     title_bs: 'Tunel spasa'
   },
   {
-    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Gazi_Husrev-beg_Mosque.jpg/1280px-Gazi_Husrev-beg_Mosque.jpg',
+    url: 'https://images.unsplash.com/photo-1596484552834-6a58f850e0a1?w=800&h=600&fit=crop',
     title_tr: 'Gaz Hüsrev Bey Camii',
     title_en: 'Gazi Husrev-beg Mosque',
     title_bs: 'Gazi Husrev-begova džamija'
   },
   {
-    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Miljacka_river_Sarajevo.jpg/1280px-Miljacka_river_Sarajevo.jpg',
+    url: 'https://images.unsplash.com/photo-1590073242678-70ee3fc28f17?w=800&h=600&fit=crop',
     title_tr: 'Miljacka Nehri',
     title_en: 'Miljacka River',
     title_bs: 'Rijeka Miljacka'
