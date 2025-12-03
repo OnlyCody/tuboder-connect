@@ -1,5 +1,5 @@
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Mail, Phone, MapPin } from 'lucide-react';
+import { Mail, Phone, MapPin, Instagram } from 'lucide-react';
 
 const Footer = () => {
   const { t } = useLanguage();
@@ -10,9 +10,17 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <h3 className="text-xl font-bold text-primary mb-4">TUBODER</h3>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground mb-3">
               {t('hero.subtitle')}
             </p>
+            <a 
+              href="https://www.instagram.com/tuboder2025/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-block text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Instagram className="h-5 w-5" />
+            </a>
           </div>
 
           <div>
