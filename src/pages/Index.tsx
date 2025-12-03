@@ -147,37 +147,50 @@ const Index = () => {
               <h3 className="text-xl font-bold text-center text-primary">
                 {language === 'tr' ? 'Son Haberler' : language === 'en' ? 'Latest News' : 'Najnovije Vijesti'}
               </h3>
-              <div className="space-y-3">
-                {latestNews.length > 0 ? (
-                  latestNews.map((news) => (
-                    <Link to="/news" key={news.id}>
-                      <Card className="shadow-elegant hover:shadow-glow transition-all cursor-pointer">
-                        <CardContent className="p-3">
-                          <div className="flex gap-3">
-                            {news.image_url && (
-                              <img 
-                                src={transformGoogleDriveUrl(news.image_url)} 
-                                alt={getNewsTitle(news)} 
-                                className="w-16 h-16 object-cover rounded flex-shrink-0"
-                              />
-                            )}
-                            <div className="flex-1 min-w-0">
-                              <h4 className="font-semibold text-sm line-clamp-2">{getNewsTitle(news)}</h4>
-                              <p className="text-xs text-muted-foreground line-clamp-2 mt-1">{getNewsDescription(news)}</p>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </Link>
-                  ))
-                ) : (
-                  <Card className="shadow-elegant">
-                    <CardContent className="p-6 text-center text-muted-foreground">
-                      {language === 'tr' ? 'Henüz haber yok' : language === 'en' ? 'No news yet' : 'Nema vijesti'}
-                    </CardContent>
-                  </Card>
-                )}
-              </div>
+              {latestNews.length > 0 ? (
+                <Carousel
+                  opts={{
+                    align: 'start',
+                    loop: true,
+                  }}
+                  plugins={[
+                    Autoplay({
+                      delay: 4000,
+                    }),
+                  ]}
+                  className="w-full"
+                >
+                  <CarouselContent>
+                    {latestNews.map((news) => (
+                      <CarouselItem key={news.id}>
+                        <Link to="/news">
+                          <Card className="shadow-elegant hover:shadow-glow transition-all cursor-pointer overflow-hidden">
+                            <CardContent className="p-0">
+                              {news.image_url && (
+                                <img 
+                                  src={transformGoogleDriveUrl(news.image_url)} 
+                                  alt={getNewsTitle(news)} 
+                                  className="w-full aspect-[4/3] object-cover"
+                                />
+                              )}
+                              <div className="p-4">
+                                <h4 className="font-bold text-sm mb-1 line-clamp-1">{getNewsTitle(news)}</h4>
+                                <p className="text-xs text-muted-foreground line-clamp-2">{getNewsDescription(news)}</p>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        </Link>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                </Carousel>
+              ) : (
+                <Card className="shadow-elegant">
+                  <CardContent className="p-6 aspect-[4/3] flex items-center justify-center text-muted-foreground text-center">
+                    {language === 'tr' ? 'Henüz haber yok' : language === 'en' ? 'No news yet' : 'Nema vijesti'}
+                  </CardContent>
+                </Card>
+              )}
             </div>
 
             {/* 3. Reklamlar */}
@@ -208,10 +221,10 @@ const Index = () => {
                           <Card className="shadow-elegant overflow-hidden">
                             <CardContent className="p-0">
                               {item.image_url && (
-                                <img 
+                              <img 
                                   src={transformGoogleDriveUrl(item.image_url)} 
                                   alt={title} 
-                                  className="w-full aspect-square object-cover"
+                                  className="w-full aspect-[4/3] object-cover"
                                 />
                               )}
                               <div className="p-4">
@@ -226,7 +239,7 @@ const Index = () => {
                   ) : (
                     <CarouselItem>
                       <Card className="shadow-elegant">
-                        <CardContent className="p-6 aspect-square flex items-center justify-center text-muted-foreground text-center">
+                        <CardContent className="p-6 aspect-[4/3] flex items-center justify-center text-muted-foreground text-center">
                           {language === 'tr' ? 'Bu alana reklam verebilirsiniz' : language === 'en' ? 'You can advertise here' : 'Možete oglašavati ovdje'}
                         </CardContent>
                       </Card>
