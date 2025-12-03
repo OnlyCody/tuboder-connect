@@ -5,6 +5,7 @@ import { Calendar } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { format } from 'date-fns';
+import { transformGoogleDriveUrl } from '@/lib/utils';
 
 const News = () => {
   const { t, language } = useLanguage();
@@ -56,7 +57,9 @@ const News = () => {
               return (
                 <Card key={news.id} className="shadow-elegant hover:shadow-glow transition-all">
                   {news.image_url && (
-                    <img src={news.image_url} alt={title} className="w-full h-64 object-cover rounded-t-lg" />
+                    <div className="w-full aspect-square overflow-hidden rounded-t-lg">
+                      <img src={transformGoogleDriveUrl(news.image_url)} alt={title} className="w-full h-full object-cover" />
+                    </div>
                   )}
                   <CardHeader>
                     <div className="flex items-center space-x-2 text-muted-foreground mb-2">
