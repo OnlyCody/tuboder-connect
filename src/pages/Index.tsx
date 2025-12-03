@@ -186,10 +186,10 @@ const Index = () => {
               </div>
             </div>
 
-            {/* 3. Reklam / Duyurular */}
+            {/* 3. Reklamlar */}
             <div className="space-y-4">
               <h3 className="text-xl font-bold text-center text-primary">
-                {language === 'tr' ? 'Duyurular' : language === 'en' ? 'Announcements' : 'Obavještenja'}
+                {language === 'tr' ? 'Reklamlar' : language === 'en' ? 'Advertisements' : 'Reklame'}
               </h3>
               <Carousel
                 opts={{
