@@ -1,6 +1,6 @@
 import AdminLayout from '@/components/layout/AdminLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Megaphone, Newspaper, Users, Calendar, Image } from 'lucide-react';
+import { Megaphone, Newspaper, Users, Calendar, Image, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const AdminDashboard = () => {
@@ -11,6 +11,13 @@ const AdminDashboard = () => {
       icon: Megaphone,
       path: '/yonetici-paneli/carousel',
       color: 'text-blue-500',
+    },
+    {
+      title: 'Bosna Hersek Tanıtım',
+      description: 'Bosna Hersek tanıtım resimlerini yönetin',
+      icon: MapPin,
+      path: '/yonetici-paneli/bosnia-images',
+      color: 'text-teal-500',
     },
     {
       title: 'Haberler',
