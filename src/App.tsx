@@ -19,6 +19,7 @@ import AdminNews from "./pages/admin/AdminNews";
 import AdminBoard from "./pages/admin/AdminBoard";
 import AdminEvents from "./pages/admin/AdminEvents";
 import AdminGallery from "./pages/admin/AdminGallery";
+import AdminBosniaImages from "./pages/admin/AdminBosniaImages";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -77,6 +78,14 @@ const App = () => (
                 element={
                   <ProtectedRoute requireAdmin>
                     <AdminGallery />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/yonetici-paneli/bosnia-images" 
+                element={
+                  <ProtectedRoute requireAdmin>
+                    <AdminBosniaImages />
                   </ProtectedRoute>
                 } 
               />

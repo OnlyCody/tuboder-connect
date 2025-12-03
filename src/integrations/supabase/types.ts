@@ -68,6 +68,42 @@ export type Database = {
         }
         Relationships: []
       }
+      bosnia_images: {
+        Row: {
+          created_at: string
+          display_order: number | null
+          id: string
+          image_url: string
+          is_active: boolean | null
+          title_bs: string
+          title_en: string
+          title_tr: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number | null
+          id?: string
+          image_url: string
+          is_active?: boolean | null
+          title_bs: string
+          title_en: string
+          title_tr: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number | null
+          id?: string
+          image_url?: string
+          is_active?: boolean | null
+          title_bs?: string
+          title_en?: string
+          title_tr?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       carousel_items: {
         Row: {
           created_at: string
