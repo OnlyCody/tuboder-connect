@@ -8,6 +8,35 @@ import { Link } from 'react-router-dom';
 import Autoplay from 'embla-carousel-autoplay';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { transformGoogleDriveUrl } from '@/lib/utils';
+
+// Bosna Hersek tanıtım resimleri
+const bosniaImages = [
+  {
+    url: 'https://images.unsplash.com/photo-1555990538-1e6c0c5e0c5c?w=800&h=600&fit=crop',
+    title_tr: 'Saraybosna',
+    title_en: 'Sarajevo',
+    title_bs: 'Sarajevo'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1592425027738-4caa5a05d8cd?w=800&h=600&fit=crop',
+    title_tr: 'Mostar Köprüsü',
+    title_en: 'Mostar Bridge',
+    title_bs: 'Stari Most'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=800&h=600&fit=crop',
+    title_tr: 'Bosna Nehri',
+    title_en: 'Bosnia River',
+    title_bs: 'Rijeka Bosna'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1586253633445-b04e945e0c2f?w=800&h=600&fit=crop',
+    title_tr: 'Tarihi Çarşı',
+    title_en: 'Historic Bazaar',
+    title_bs: 'Baščaršija'
+  }
+];
 
 const Index = () => {
   const { t, language } = useLanguage();
@@ -25,6 +54,33 @@ const Index = () => {
       return data || [];
     },
   });
+
+  const { data: latestNews = [] } = useQuery({
+    queryKey: ['latest-news'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('news')
+        .select('*')
+        .eq('is_published', true)
+        .order('published_date', { ascending: false })
+        .limit(4);
+      
+      if (error) throw error;
+      return data || [];
+    },
+  });
+
+  const getBosniaTitle = (item: typeof bosniaImages[0]) => {
+    return language === 'tr' ? item.title_tr : language === 'en' ? item.title_en : item.title_bs;
+  };
+
+  const getNewsTitle = (item: any) => {
+    return language === 'tr' ? item.title_tr : language === 'en' ? item.title_en : item.title_bs;
+  };
+
+  const getNewsDescription = (item: any) => {
+    return language === 'tr' ? item.description_tr : language === 'en' ? item.description_en : item.description_bs;
+  };
 
   return (
     <MainLayout>
@@ -49,44 +105,144 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Carousel Section */}
+      {/* Three Column Section */}
       <section className="bg-secondary/20 py-8">
         <div className="container mx-auto px-4">
-          <Carousel
-            opts={{
-              align: 'start',
-              loop: true,
-            }}
-            plugins={[
-              Autoplay({
-                delay: 4000,
-              }),
-            ]}
-            className="w-full max-w-5xl mx-auto"
-          >
-            <CarouselContent>
-              {carouselItems.map((item) => {
-                const title = language === 'tr' ? item.title_tr : language === 'en' ? item.title_en : item.title_bs;
-                const description = language === 'tr' ? item.description_tr : language === 'en' ? item.description_en : item.description_bs;
-                
-                return (
-                  <CarouselItem key={item.id}>
-                    <Card className="shadow-elegant">
-                      <CardContent className="flex flex-col items-center justify-center p-12 text-center min-h-[300px]">
-                        {item.image_url && (
-                          <img src={item.image_url} alt={title} className="w-full h-48 object-cover rounded-lg mb-4" />
-                        )}
-                        <h3 className="text-3xl font-bold mb-4">{title}</h3>
-                        <p className="text-lg text-muted-foreground">{description}</p>
-                      </CardContent>
-                    </Card>
-                  </CarouselItem>
-                );
-              })}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            {/* 1. Bosna Hersek Tanıtımı */}
+            <div className="space-y-4">
+              <h3 className="text-xl font-bold text-center text-primary">
+                {language === 'tr' ? 'Bosna Hersek' : language === 'en' ? 'Bosnia Herzegovina' : 'Bosna i Hercegovina'}
+              </h3>
+              <Carousel
+                opts={{
+                  align: 'start',
+                  loop: true,
+                }}
+                plugins={[
+                  Autoplay({
+                    delay: 7000,
+                  }),
+                ]}
+                className="w-full"
+              >
+                <CarouselContent>
+                  {bosniaImages.map((item, index) => (
+                    <CarouselItem key={index}>
+                      <Card className="shadow-elegant overflow-hidden">
+                        <CardContent className="p-0 relative">
+                          <img 
+                            src={item.url} 
+                            alt={getBosniaTitle(item)} 
+                            className="w-full aspect-[4/3] object-cover"
+                          />
+                          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                            <p className="text-white font-semibold text-lg">{getBosniaTitle(item)}</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+              </Carousel>
+            </div>
+
+            {/* 2. Son Haberler */}
+            <div className="space-y-4">
+              <h3 className="text-xl font-bold text-center text-primary">
+                {language === 'tr' ? 'Son Haberler' : language === 'en' ? 'Latest News' : 'Najnovije Vijesti'}
+              </h3>
+              <div className="space-y-3">
+                {latestNews.length > 0 ? (
+                  latestNews.map((news) => (
+                    <Link to="/news" key={news.id}>
+                      <Card className="shadow-elegant hover:shadow-glow transition-all cursor-pointer">
+                        <CardContent className="p-3">
+                          <div className="flex gap-3">
+                            {news.image_url && (
+                              <img 
+                                src={transformGoogleDriveUrl(news.image_url)} 
+                                alt={getNewsTitle(news)} 
+                                className="w-16 h-16 object-cover rounded flex-shrink-0"
+                              />
+                            )}
+                            <div className="flex-1 min-w-0">
+                              <h4 className="font-semibold text-sm line-clamp-2">{getNewsTitle(news)}</h4>
+                              <p className="text-xs text-muted-foreground line-clamp-2 mt-1">{getNewsDescription(news)}</p>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  ))
+                ) : (
+                  <Card className="shadow-elegant">
+                    <CardContent className="p-6 text-center text-muted-foreground">
+                      {language === 'tr' ? 'Henüz haber yok' : language === 'en' ? 'No news yet' : 'Nema vijesti'}
+                    </CardContent>
+                  </Card>
+                )}
+              </div>
+            </div>
+
+            {/* 3. Reklam / Duyurular */}
+            <div className="space-y-4">
+              <h3 className="text-xl font-bold text-center text-primary">
+                {language === 'tr' ? 'Duyurular' : language === 'en' ? 'Announcements' : 'Obavještenja'}
+              </h3>
+              <Carousel
+                opts={{
+                  align: 'start',
+                  loop: true,
+                }}
+                plugins={[
+                  Autoplay({
+                    delay: 5000,
+                  }),
+                ]}
+                className="w-full"
+              >
+                <CarouselContent>
+                  {carouselItems.length > 0 ? (
+                    carouselItems.map((item) => {
+                      const title = language === 'tr' ? item.title_tr : language === 'en' ? item.title_en : item.title_bs;
+                      const description = language === 'tr' ? item.description_tr : language === 'en' ? item.description_en : item.description_bs;
+                      
+                      return (
+                        <CarouselItem key={item.id}>
+                          <Card className="shadow-elegant overflow-hidden">
+                            <CardContent className="p-0">
+                              {item.image_url && (
+                                <img 
+                                  src={transformGoogleDriveUrl(item.image_url)} 
+                                  alt={title} 
+                                  className="w-full aspect-square object-cover"
+                                />
+                              )}
+                              <div className="p-4">
+                                <h4 className="font-bold text-sm mb-1 line-clamp-1">{title}</h4>
+                                <p className="text-xs text-muted-foreground line-clamp-2">{description}</p>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        </CarouselItem>
+                      );
+                    })
+                  ) : (
+                    <CarouselItem>
+                      <Card className="shadow-elegant">
+                        <CardContent className="p-6 aspect-square flex items-center justify-center text-muted-foreground">
+                          {language === 'tr' ? 'Henüz duyuru yok' : language === 'en' ? 'No announcements' : 'Nema obavještenja'}
+                        </CardContent>
+                      </Card>
+                    </CarouselItem>
+                  )}
+                </CarouselContent>
+              </Carousel>
+            </div>
+
+          </div>
         </div>
       </section>
 
