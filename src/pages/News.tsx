@@ -75,7 +75,9 @@ const News = () => {
                       <h3 className="text-2xl font-semibold mb-2">{title}</h3>
                       <p className="text-muted-foreground line-clamp-2">{description}</p>
                       {hasLongContent && (
-                        <span className="text-primary font-medium mt-2 inline-block">Devamını Oku...</span>
+                        <span className="text-primary font-medium mt-2 inline-block">
+                          {language === 'tr' ? 'Devamını Oku...' : language === 'en' ? 'Read More...' : 'Pročitaj više...'}
+                        </span>
                       )}
                     </div>
                     {news.image_url && (
