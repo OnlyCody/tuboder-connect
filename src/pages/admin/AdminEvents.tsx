@@ -23,7 +23,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, Pencil, Trash2 } from 'lucide-react';
+import { Plus, Pencil, Trash2, Instagram, Loader2 } from 'lucide-react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -51,6 +51,7 @@ const eventSchema = z.object({
   location_en: z.string().optional(),
   location_bs: z.string().optional(),
   image_url: z.string().url('Geçerli bir URL giriniz').optional().or(z.literal('')),
+  instagram_url: z.string().url('Geçerli bir URL giriniz').optional().or(z.literal('')),
   event_date: z.string().min(1, 'Etkinlik tarihi gereklidir'),
   is_published: z.boolean(),
 });
@@ -60,6 +61,7 @@ type EventFormData = z.infer<typeof eventSchema>;
 const AdminEvents = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingEvent, setEditingEvent] = useState<any>(null);
+  const [isFetchingInstagram, setIsFetchingInstagram] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -79,6 +81,7 @@ const AdminEvents = () => {
       location_en: '',
       location_bs: '',
       image_url: '',
+      instagram_url: '',
       event_date: new Date().toISOString().split('T')[0],
       is_published: false,
     },
@@ -113,6 +116,7 @@ const AdminEvents = () => {
         location_en: data.location_en || null,
         location_bs: data.location_bs || null,
         image_url: data.image_url || null,
+        instagram_url: data.instagram_url || null,
         event_date: data.event_date,
         is_published: data.is_published,
       }]);
@@ -145,6 +149,7 @@ const AdminEvents = () => {
         location_en: data.location_en || null,
         location_bs: data.location_bs || null,
         image_url: data.image_url || null,
+        instagram_url: data.instagram_url || null,
         event_date: data.event_date,
         is_published: data.is_published,
       }).eq('id', id);
@@ -189,6 +194,49 @@ const AdminEvents = () => {
     }
   };
 
+  const handleFetchInstagram = async () => {
+    const instagramUrl = form.getValues('instagram_url');
+    if (!instagramUrl) {
+      toast({ title: 'Hata', description: 'Instagram URL giriniz', variant: 'destructive' });
+      return;
+    }
+
+    setIsFetchingInstagram(true);
+    try {
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/fetch-instagram`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ instagram_url: instagramUrl }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Instagram verisi alınamadı');
+      }
+
+      const data = await response.json();
+      
+      form.setValue('title_tr', data.title_tr);
+      form.setValue('title_en', data.title_en);
+      form.setValue('title_bs', data.title_bs);
+      form.setValue('description_tr', data.description_tr);
+      form.setValue('description_en', data.description_en);
+      form.setValue('description_bs', data.description_bs);
+      if (data.image_url) form.setValue('image_url', data.image_url);
+      if (data.event_date) form.setValue('event_date', data.event_date);
+
+      toast({ title: 'Başarılı', description: 'Instagram verisi alındı ve çevrildi' });
+    } catch (error) {
+      toast({ 
+        title: 'Hata', 
+        description: error instanceof Error ? error.message : 'Instagram verisi alınamadı', 
+        variant: 'destructive' 
+      });
+    } finally {
+      setIsFetchingInstagram(false);
+    }
+  };
+
   const handleEdit = (event: any) => {
     setEditingEvent(event);
     form.reset({
@@ -205,6 +253,7 @@ const AdminEvents = () => {
       location_en: event.location_en || '',
       location_bs: event.location_bs || '',
       image_url: event.image_url || '',
+      instagram_url: event.instagram_url || '',
       event_date: event.event_date,
       is_published: event.is_published,
     });
@@ -417,6 +466,42 @@ const AdminEvents = () => {
                       />
                     </TabsContent>
                   </Tabs>
+
+                  <div className="space-y-2">
+                    <FormField
+                      control={form.control}
+                      name="instagram_url"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="flex items-center gap-2">
+                            <Instagram className="h-4 w-4 text-primary" />
+                            Instagram Linki
+                          </FormLabel>
+                          <div className="flex gap-2">
+                            <FormControl>
+                              <Input {...field} placeholder="https://www.instagram.com/p/..." />
+                            </FormControl>
+                            <Button 
+                              type="button" 
+                              variant="outline" 
+                              onClick={handleFetchInstagram}
+                              disabled={isFetchingInstagram}
+                            >
+                              {isFetchingInstagram ? (
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                              ) : (
+                                'Otomatik Doldur'
+                              )}
+                            </Button>
+                          </div>
+                          <p className="text-xs text-muted-foreground">
+                            Instagram linkini yapıştırın ve "Otomatik Doldur" ile tüm alanları doldurun
+                          </p>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
 
                   <FormField
                     control={form.control}
