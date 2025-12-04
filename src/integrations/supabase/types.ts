@@ -161,7 +161,6 @@ export type Database = {
           event_date: string
           id: string
           image_url: string | null
-          instagram_url: string | null
           is_published: boolean | null
           location_bs: string | null
           location_en: string | null
@@ -182,7 +181,6 @@ export type Database = {
           event_date: string
           id?: string
           image_url?: string | null
-          instagram_url?: string | null
           is_published?: boolean | null
           location_bs?: string | null
           location_en?: string | null
@@ -203,7 +201,6 @@ export type Database = {
           event_date?: string
           id?: string
           image_url?: string | null
-          instagram_url?: string | null
           is_published?: boolean | null
           location_bs?: string | null
           location_en?: string | null
