@@ -1,7 +1,7 @@
 import MainLayout from '@/components/layout/MainLayout';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Calendar, MapPin } from 'lucide-react';
+import { Calendar, MapPin, Instagram } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { format } from 'date-fns';
@@ -66,6 +66,18 @@ const Events = () => {
                         <MapPin className="h-4 w-4" />
                         <span className="text-sm">{location}</span>
                       </div>
+                    )}
+                    {event.instagram_url && (
+                      <a 
+                        href={event.instagram_url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="flex items-center space-x-2 text-primary hover:text-primary/80 transition-colors mb-2"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <Instagram className="h-4 w-4" />
+                        <span className="text-sm">Instagram'da Görüntüle</span>
+                      </a>
                     )}
                     <CardTitle className="text-xl">{title}</CardTitle>
                   </CardHeader>
