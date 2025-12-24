@@ -104,6 +104,45 @@ export type Database = {
         }
         Relationships: []
       }
+      business_categories: {
+        Row: {
+          created_at: string
+          display_order: number | null
+          icon: string | null
+          id: string
+          is_active: boolean | null
+          name_bs: string
+          name_en: string
+          name_tr: string
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number | null
+          icon?: string | null
+          id?: string
+          is_active?: boolean | null
+          name_bs: string
+          name_en: string
+          name_tr: string
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number | null
+          icon?: string | null
+          id?: string
+          is_active?: boolean | null
+          name_bs?: string
+          name_en?: string
+          name_tr?: string
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       carousel_items: {
         Row: {
           created_at: string
@@ -268,6 +307,53 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      member_businesses: {
+        Row: {
+          address: string | null
+          business_name: string
+          category_id: string
+          created_at: string
+          display_order: number | null
+          id: string
+          is_active: boolean | null
+          owner_name: string
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          business_name: string
+          category_id: string
+          created_at?: string
+          display_order?: number | null
+          id?: string
+          is_active?: boolean | null
+          owner_name: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          business_name?: string
+          category_id?: string
+          created_at?: string
+          display_order?: number | null
+          id?: string
+          is_active?: boolean | null
+          owner_name?: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_businesses_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "business_categories"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       news: {
         Row: {

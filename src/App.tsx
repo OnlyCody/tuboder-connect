@@ -14,6 +14,8 @@ import Membership from "./pages/Membership";
 import Events from "./pages/Events";
 import News from "./pages/News";
 import Gallery from "./pages/Gallery";
+import Businesses from "./pages/Businesses";
+import BusinessCategory from "./pages/BusinessCategory";
 import AdminPanel from "./pages/AdminPanel";
 import AdminCarousel from "./pages/admin/AdminCarousel";
 import AdminNews from "./pages/admin/AdminNews";
@@ -21,6 +23,8 @@ import AdminBoard from "./pages/admin/AdminBoard";
 import AdminEvents from "./pages/admin/AdminEvents";
 import AdminGallery from "./pages/admin/AdminGallery";
 import AdminBosniaImages from "./pages/admin/AdminBosniaImages";
+import AdminCategories from "./pages/admin/AdminCategories";
+import AdminBusinesses from "./pages/admin/AdminBusinesses";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -42,6 +46,8 @@ const App = () => (
               <Route path="/events" element={<Events />} />
               <Route path="/news" element={<News />} />
               <Route path="/gallery" element={<Gallery />} />
+              <Route path="/businesses" element={<Businesses />} />
+              <Route path="/businesses/:slug" element={<BusinessCategory />} />
               <Route path="/yonetici-paneli" element={<AdminPanel />} />
               <Route 
                 path="/yonetici-paneli/carousel" 
@@ -88,6 +94,22 @@ const App = () => (
                 element={
                   <ProtectedRoute requireAdmin>
                     <AdminBosniaImages />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/yonetici-paneli/categories" 
+                element={
+                  <ProtectedRoute requireAdmin>
+                    <AdminCategories />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/yonetici-paneli/businesses" 
+                element={
+                  <ProtectedRoute requireAdmin>
+                    <AdminBusinesses />
                   </ProtectedRoute>
                 } 
               />
