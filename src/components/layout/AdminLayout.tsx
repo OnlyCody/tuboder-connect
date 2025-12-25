@@ -8,7 +8,10 @@ import {
   Users, 
   Calendar, 
   Image, 
-  LogOut 
+  LogOut,
+  MapPin,
+  Building2,
+  FolderOpen
 } from 'lucide-react';
 
 interface AdminLayoutProps {
@@ -26,6 +29,9 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
     { icon: Users, label: 'Yönetim Kurulu', path: '/yonetici-paneli/board' },
     { icon: Calendar, label: 'Etkinlikler', path: '/yonetici-paneli/events' },
     { icon: Image, label: 'Galeri', path: '/yonetici-paneli/gallery' },
+    { icon: MapPin, label: 'Bosna Resimleri', path: '/yonetici-paneli/bosnia-images' },
+    { icon: FolderOpen, label: 'Kategoriler', path: '/yonetici-paneli/categories' },
+    { icon: Building2, label: 'İşletmeler', path: '/yonetici-paneli/businesses' },
   ];
 
   return (
