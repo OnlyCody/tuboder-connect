@@ -126,7 +126,7 @@ const Events = () => {
     <MainLayout>
       <div className="container mx-auto px-4 py-16">
         <h1 className="text-4xl font-bold text-center mb-12">{t('events.title')}</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
           {events.length === 0 ? (
             <div className="col-span-full text-center py-12">
               <p className="text-muted-foreground">Henüz etkinlik bulunmamaktadır.</p>
@@ -140,11 +140,7 @@ const Events = () => {
               // Instagram-only etkinlik - sadece embed göster
               if (event.is_instagram_only && event.instagram_url) {
                 return (
-                  <div key={event.id} className="shadow-elegant rounded-lg overflow-hidden bg-card">
-                    <div className="p-3 border-b flex items-center gap-2 text-primary">
-                      <Calendar className="h-4 w-4" />
-                      <span className="text-sm font-medium">{format(new Date(event.event_date), 'dd.MM.yyyy')}</span>
-                    </div>
+                  <div key={event.id} className="w-full">
                     <InstagramEmbed url={event.instagram_url} />
                   </div>
                 );
