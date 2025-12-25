@@ -3,7 +3,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { ArrowRight, Calendar, Users, Image as ImageIcon } from 'lucide-react';
+import { ArrowRight, Calendar, Users, Store } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Autoplay from 'embla-carousel-autoplay';
 import { useQuery } from '@tanstack/react-query';
@@ -301,15 +301,15 @@ const Index = () => {
               </Card>
             </Link>
 
-            <Link to="/gallery" className="group">
+            <Link to="/businesses" className="group">
               <Card className="h-full shadow-elegant hover:shadow-glow transition-all cursor-pointer">
                 <CardHeader>
                   <div className="bg-primary/10 p-4 rounded-full w-fit mb-4 group-hover:bg-primary/20 transition-colors">
-                    <ImageIcon className="h-8 w-8 text-primary" />
+                    <Store className="h-8 w-8 text-primary" />
                   </div>
-                  <CardTitle className="text-2xl">{t('nav.gallery')}</CardTitle>
+                  <CardTitle className="text-2xl">{t('nav.businesses')}</CardTitle>
                   <CardDescription className="text-base">
-                    Anılarımızı görüntüleyin
+                    {language === 'tr' ? 'Üye işyerlerimizi keşfedin' : language === 'en' ? 'Discover our member businesses' : 'Otkrijte naše članove'}
                   </CardDescription>
                 </CardHeader>
               </Card>
