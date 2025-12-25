@@ -4,7 +4,42 @@ import { supabase } from '@/integrations/supabase/client';
 import MainLayout from '@/components/layout/MainLayout';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Building2, ChevronRight } from 'lucide-react';
+import { 
+  Building2, 
+  ChevronRight, 
+  UtensilsCrossed, 
+  Car, 
+  Shirt, 
+  Apple, 
+  Heart, 
+  Hammer, 
+  Briefcase, 
+  GraduationCap, 
+  ShoppingBag, 
+  Palette,
+  LucideIcon
+} from 'lucide-react';
+
+const iconMap: Record<string, LucideIcon> = {
+  UtensilsCrossed,
+  Car,
+  Shirt,
+  Apple,
+  Heart,
+  Hammer,
+  Briefcase,
+  GraduationCap,
+  ShoppingBag,
+  Palette,
+  Building2,
+};
+
+const getIcon = (iconName: string | null): LucideIcon => {
+  if (iconName && iconMap[iconName]) {
+    return iconMap[iconName];
+  }
+  return Building2;
+};
 
 const Businesses = () => {
   const { language, t } = useLanguage();
@@ -56,9 +91,14 @@ const Businesses = () => {
               <Link key={category.id} to={`/businesses/${category.slug}`}>
                 <Card className="h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer group">
                   <CardHeader className="flex flex-row items-center gap-4">
-                    <div className="p-3 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors">
-                      <Building2 className="h-8 w-8 text-primary" />
-                    </div>
+                    {(() => {
+                      const IconComponent = getIcon(category.icon);
+                      return (
+                        <div className="p-3 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors">
+                          <IconComponent className="h-8 w-8 text-primary" />
+                        </div>
+                      );
+                    })()}
                     <div className="flex-1">
                       <CardTitle className="text-xl group-hover:text-primary transition-colors">
                         {getCategoryName(category)}
