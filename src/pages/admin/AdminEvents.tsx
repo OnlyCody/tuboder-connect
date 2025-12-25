@@ -51,6 +51,7 @@ const eventSchema = z.object({
   location_en: z.string().optional(),
   location_bs: z.string().optional(),
   image_url: z.string().url('Geçerli bir URL giriniz').optional().or(z.literal('')),
+  instagram_url: z.string().url('Geçerli bir Instagram URL giriniz').optional().or(z.literal('')),
   event_date: z.string().min(1, 'Etkinlik tarihi gereklidir'),
   is_published: z.boolean(),
 });
@@ -79,6 +80,7 @@ const AdminEvents = () => {
       location_en: '',
       location_bs: '',
       image_url: '',
+      instagram_url: '',
       event_date: new Date().toISOString().split('T')[0],
       is_published: false,
     },
@@ -113,6 +115,7 @@ const AdminEvents = () => {
         location_en: data.location_en || null,
         location_bs: data.location_bs || null,
         image_url: data.image_url || null,
+        instagram_url: data.instagram_url || null,
         event_date: data.event_date,
         is_published: data.is_published,
       }]);
@@ -145,6 +148,7 @@ const AdminEvents = () => {
         location_en: data.location_en || null,
         location_bs: data.location_bs || null,
         image_url: data.image_url || null,
+        instagram_url: data.instagram_url || null,
         event_date: data.event_date,
         is_published: data.is_published,
       }).eq('id', id);
@@ -205,6 +209,7 @@ const AdminEvents = () => {
       location_en: event.location_en || '',
       location_bs: event.location_bs || '',
       image_url: event.image_url || '',
+      instagram_url: event.instagram_url || '',
       event_date: event.event_date,
       is_published: event.is_published,
     });
@@ -426,6 +431,20 @@ const AdminEvents = () => {
                         <FormLabel>Resim URL</FormLabel>
                         <FormControl>
                           <Input {...field} placeholder="https://..." />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="instagram_url"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Instagram URL (Embed için)</FormLabel>
+                        <FormControl>
+                          <Input {...field} placeholder="https://www.instagram.com/p/..." />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
