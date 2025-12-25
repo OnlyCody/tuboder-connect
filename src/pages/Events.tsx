@@ -140,7 +140,7 @@ const Events = () => {
               // Instagram-only etkinlik - sadece embed göster
               if (event.is_instagram_only && event.instagram_url) {
                 return (
-                  <div key={event.id} className="w-full">
+                  <div key={event.id} className="w-full h-[500px] overflow-hidden rounded-lg">
                     <InstagramEmbed url={event.instagram_url} />
                   </div>
                 );
