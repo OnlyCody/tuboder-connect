@@ -1,6 +1,6 @@
 import AdminLayout from '@/components/layout/AdminLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Megaphone, Newspaper, Users, Calendar, Image, MapPin } from 'lucide-react';
+import { Megaphone, Newspaper, Users, Calendar, Image, MapPin, FolderOpen, Store } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const AdminDashboard = () => {
@@ -46,6 +46,20 @@ const AdminDashboard = () => {
       icon: Image,
       path: '/yonetici-paneli/gallery',
       color: 'text-pink-500',
+    },
+    {
+      title: 'İşyeri Kategorileri',
+      description: 'Üye işyeri kategorilerini yönetin',
+      icon: FolderOpen,
+      path: '/yonetici-paneli/categories',
+      color: 'text-amber-500',
+    },
+    {
+      title: 'Üye İşyerleri',
+      description: 'Üye işyerlerini ekleyin ve düzenleyin',
+      icon: Store,
+      path: '/yonetici-paneli/businesses',
+      color: 'text-red-500',
     },
   ];
 
