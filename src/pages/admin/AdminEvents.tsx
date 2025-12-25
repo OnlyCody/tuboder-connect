@@ -38,12 +38,13 @@ import {
 } from '@/components/ui/form';
 
 const eventSchema = z.object({
-  title_tr: z.string().min(1, 'Türkçe başlık gereklidir'),
-  title_en: z.string().min(1, 'İngilizce başlık gereklidir'),
-  title_bs: z.string().min(1, 'Boşnakça başlık gereklidir'),
-  description_tr: z.string().min(1, 'Türkçe açıklama gereklidir'),
-  description_en: z.string().min(1, 'İngilizce açıklama gereklidir'),
-  description_bs: z.string().min(1, 'Boşnakça açıklama gereklidir'),
+  is_instagram_only: z.boolean(),
+  title_tr: z.string().optional(),
+  title_en: z.string().optional(),
+  title_bs: z.string().optional(),
+  description_tr: z.string().optional(),
+  description_en: z.string().optional(),
+  description_bs: z.string().optional(),
   content_tr: z.string().optional(),
   content_en: z.string().optional(),
   content_bs: z.string().optional(),
@@ -51,9 +52,18 @@ const eventSchema = z.object({
   location_en: z.string().optional(),
   location_bs: z.string().optional(),
   image_url: z.string().url('Geçerli bir URL giriniz').optional().or(z.literal('')),
-  instagram_url: z.string().url('Geçerli bir Instagram URL giriniz').optional().or(z.literal('')),
+  instagram_url: z.string().optional(),
   event_date: z.string().min(1, 'Etkinlik tarihi gereklidir'),
   is_published: z.boolean(),
+}).refine((data) => {
+  if (data.is_instagram_only) {
+    return data.instagram_url && data.instagram_url.length > 0;
+  }
+  return data.title_tr && data.title_en && data.title_bs && 
+         data.description_tr && data.description_en && data.description_bs;
+}, {
+  message: "Instagram embed için URL gerekli, normal etkinlik için başlık ve açıklama gerekli",
+  path: ["instagram_url"],
 });
 
 type EventFormData = z.infer<typeof eventSchema>;
@@ -67,6 +77,7 @@ const AdminEvents = () => {
   const form = useForm<EventFormData>({
     resolver: zodResolver(eventSchema),
     defaultValues: {
+      is_instagram_only: false,
       title_tr: '',
       title_en: '',
       title_bs: '',
@@ -86,6 +97,8 @@ const AdminEvents = () => {
     },
   });
 
+  const isInstagramOnly = form.watch('is_instagram_only');
+
   const { data: events, isLoading } = useQuery({
     queryKey: ['admin-events'],
     queryFn: async () => {
@@ -102,12 +115,13 @@ const AdminEvents = () => {
   const createMutation = useMutation({
     mutationFn: async (data: EventFormData) => {
       const { error } = await supabase.from('events').insert([{
-        title_tr: data.title_tr,
-        title_en: data.title_en,
-        title_bs: data.title_bs,
-        description_tr: data.description_tr,
-        description_en: data.description_en,
-        description_bs: data.description_bs,
+        is_instagram_only: data.is_instagram_only,
+        title_tr: data.is_instagram_only ? 'Instagram Embed' : data.title_tr,
+        title_en: data.is_instagram_only ? 'Instagram Embed' : data.title_en,
+        title_bs: data.is_instagram_only ? 'Instagram Embed' : data.title_bs,
+        description_tr: data.is_instagram_only ? 'Instagram paylaşımı' : data.description_tr,
+        description_en: data.is_instagram_only ? 'Instagram post' : data.description_en,
+        description_bs: data.is_instagram_only ? 'Instagram objava' : data.description_bs,
         content_tr: data.content_tr || null,
         content_en: data.content_en || null,
         content_bs: data.content_bs || null,
@@ -135,12 +149,13 @@ const AdminEvents = () => {
   const updateMutation = useMutation({
     mutationFn: async ({ id, data }: { id: string; data: EventFormData }) => {
       const { error } = await supabase.from('events').update({
-        title_tr: data.title_tr,
-        title_en: data.title_en,
-        title_bs: data.title_bs,
-        description_tr: data.description_tr,
-        description_en: data.description_en,
-        description_bs: data.description_bs,
+        is_instagram_only: data.is_instagram_only,
+        title_tr: data.is_instagram_only ? 'Instagram Embed' : data.title_tr,
+        title_en: data.is_instagram_only ? 'Instagram Embed' : data.title_en,
+        title_bs: data.is_instagram_only ? 'Instagram Embed' : data.title_bs,
+        description_tr: data.is_instagram_only ? 'Instagram paylaşımı' : data.description_tr,
+        description_en: data.is_instagram_only ? 'Instagram post' : data.description_en,
+        description_bs: data.is_instagram_only ? 'Instagram objava' : data.description_bs,
         content_tr: data.content_tr || null,
         content_en: data.content_en || null,
         content_bs: data.content_bs || null,
@@ -196,6 +211,7 @@ const AdminEvents = () => {
   const handleEdit = (event: any) => {
     setEditingEvent(event);
     form.reset({
+      is_instagram_only: event.is_instagram_only || false,
       title_tr: event.title_tr,
       title_en: event.title_en,
       title_bs: event.title_bs,
@@ -250,206 +266,248 @@ const AdminEvents = () => {
               </DialogHeader>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                  <Tabs defaultValue="tr" className="w-full">
-                    <TabsList className="grid w-full grid-cols-3">
-                      <TabsTrigger value="tr">Türkçe</TabsTrigger>
-                      <TabsTrigger value="en">English</TabsTrigger>
-                      <TabsTrigger value="bs">Bosanski</TabsTrigger>
-                    </TabsList>
-
-                    <TabsContent value="tr" className="space-y-4">
-                      <FormField
-                        control={form.control}
-                        name="title_tr"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Başlık</FormLabel>
-                            <FormControl>
-                              <Input {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="description_tr"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Açıklama</FormLabel>
-                            <FormControl>
-                              <Textarea {...field} rows={3} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="content_tr"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>İçerik</FormLabel>
-                            <FormControl>
-                              <Textarea {...field} rows={6} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="location_tr"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Konum</FormLabel>
-                            <FormControl>
-                              <Input {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </TabsContent>
-
-                    <TabsContent value="en" className="space-y-4">
-                      <FormField
-                        control={form.control}
-                        name="title_en"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Title</FormLabel>
-                            <FormControl>
-                              <Input {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="description_en"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Description</FormLabel>
-                            <FormControl>
-                              <Textarea {...field} rows={3} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="content_en"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Content</FormLabel>
-                            <FormControl>
-                              <Textarea {...field} rows={6} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="location_en"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Location</FormLabel>
-                            <FormControl>
-                              <Input {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </TabsContent>
-
-                    <TabsContent value="bs" className="space-y-4">
-                      <FormField
-                        control={form.control}
-                        name="title_bs"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Naslov</FormLabel>
-                            <FormControl>
-                              <Input {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="description_bs"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Opis</FormLabel>
-                            <FormControl>
-                              <Textarea {...field} rows={3} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="content_bs"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Sadržaj</FormLabel>
-                            <FormControl>
-                              <Textarea {...field} rows={6} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="location_bs"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Lokacija</FormLabel>
-                            <FormControl>
-                              <Input {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </TabsContent>
-                  </Tabs>
-
+                  {/* Instagram Only Toggle */}
                   <FormField
                     control={form.control}
-                    name="image_url"
+                    name="is_instagram_only"
                     render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Resim URL</FormLabel>
+                      <FormItem className="flex items-center justify-between rounded-lg border border-pink-200 bg-pink-50 p-4">
+                        <div className="space-y-0.5">
+                          <FormLabel className="text-pink-700 font-medium">Sadece Instagram Embed</FormLabel>
+                          <p className="text-sm text-pink-600">Aktif ise sadece Instagram URL ve tarih yeterli</p>
+                        </div>
                         <FormControl>
-                          <Input {...field} placeholder="https://..." />
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
                         </FormControl>
-                        <FormMessage />
                       </FormItem>
                     )}
                   />
 
-                  <FormField
-                    control={form.control}
-                    name="instagram_url"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Instagram URL (Embed için)</FormLabel>
-                        <FormControl>
-                          <Input {...field} placeholder="https://www.instagram.com/p/..." />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  {/* Instagram URL - always visible when instagram only */}
+                  {isInstagramOnly && (
+                    <FormField
+                      control={form.control}
+                      name="instagram_url"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Instagram URL *</FormLabel>
+                          <FormControl>
+                            <Input {...field} placeholder="https://www.instagram.com/p/..." />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
+
+                  {/* Regular form fields - hidden when instagram only */}
+                  {!isInstagramOnly && (
+                    <>
+                      <Tabs defaultValue="tr" className="w-full">
+                        <TabsList className="grid w-full grid-cols-3">
+                          <TabsTrigger value="tr">Türkçe</TabsTrigger>
+                          <TabsTrigger value="en">English</TabsTrigger>
+                          <TabsTrigger value="bs">Bosanski</TabsTrigger>
+                        </TabsList>
+
+                        <TabsContent value="tr" className="space-y-4">
+                          <FormField
+                            control={form.control}
+                            name="title_tr"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Başlık *</FormLabel>
+                                <FormControl>
+                                  <Input {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="description_tr"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Açıklama *</FormLabel>
+                                <FormControl>
+                                  <Textarea {...field} rows={3} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="content_tr"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>İçerik</FormLabel>
+                                <FormControl>
+                                  <Textarea {...field} rows={6} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="location_tr"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Konum</FormLabel>
+                                <FormControl>
+                                  <Input {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </TabsContent>
+
+                        <TabsContent value="en" className="space-y-4">
+                          <FormField
+                            control={form.control}
+                            name="title_en"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Title *</FormLabel>
+                                <FormControl>
+                                  <Input {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="description_en"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Description *</FormLabel>
+                                <FormControl>
+                                  <Textarea {...field} rows={3} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="content_en"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Content</FormLabel>
+                                <FormControl>
+                                  <Textarea {...field} rows={6} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="location_en"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Location</FormLabel>
+                                <FormControl>
+                                  <Input {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </TabsContent>
+
+                        <TabsContent value="bs" className="space-y-4">
+                          <FormField
+                            control={form.control}
+                            name="title_bs"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Naslov *</FormLabel>
+                                <FormControl>
+                                  <Input {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="description_bs"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Opis *</FormLabel>
+                                <FormControl>
+                                  <Textarea {...field} rows={3} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="content_bs"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Sadržaj</FormLabel>
+                                <FormControl>
+                                  <Textarea {...field} rows={6} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="location_bs"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Lokacija</FormLabel>
+                                <FormControl>
+                                  <Input {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </TabsContent>
+                      </Tabs>
+
+                      <FormField
+                        control={form.control}
+                        name="image_url"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Resim URL</FormLabel>
+                            <FormControl>
+                              <Input {...field} placeholder="https://..." />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="instagram_url"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Instagram URL (Opsiyonel Embed)</FormLabel>
+                            <FormControl>
+                              <Input {...field} placeholder="https://www.instagram.com/p/..." />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </>
+                  )}
 
                   <FormField
                     control={form.control}

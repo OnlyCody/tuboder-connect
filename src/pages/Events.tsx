@@ -137,6 +137,20 @@ const Events = () => {
               const description = language === 'tr' ? event.description_tr : language === 'en' ? event.description_en : event.description_bs;
               const location = language === 'tr' ? event.location_tr : language === 'en' ? event.location_en : event.location_bs;
               
+              // Instagram-only etkinlik - sadece embed göster
+              if (event.is_instagram_only && event.instagram_url) {
+                return (
+                  <div key={event.id} className="shadow-elegant rounded-lg overflow-hidden bg-card">
+                    <div className="p-3 border-b flex items-center gap-2 text-primary">
+                      <Calendar className="h-4 w-4" />
+                      <span className="text-sm font-medium">{format(new Date(event.event_date), 'dd.MM.yyyy')}</span>
+                    </div>
+                    <InstagramEmbed url={event.instagram_url} />
+                  </div>
+                );
+              }
+              
+              // Normal etkinlik
               return (
                 <Card key={event.id} className="shadow-elegant hover:shadow-glow transition-shadow">
                   {event.image_url && (
