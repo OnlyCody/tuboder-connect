@@ -140,8 +140,19 @@ const Events = () => {
               // Instagram-only etkinlik - sadece embed göster
               if (event.is_instagram_only && event.instagram_url) {
                 return (
-                  <div key={event.id} className="w-full h-[500px] overflow-hidden rounded-lg">
-                    <InstagramEmbed url={event.instagram_url} />
+                  <div key={event.id} className="w-full rounded-lg overflow-hidden bg-card shadow-elegant">
+                    <div className="h-[750px] overflow-hidden">
+                      <InstagramEmbed url={event.instagram_url} />
+                    </div>
+                    <a 
+                      href={event.instagram_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2 py-4 bg-gradient-to-r from-primary/10 to-primary/5 hover:from-primary/20 hover:to-primary/10 transition-all border-t border-primary/20"
+                    >
+                      <Instagram className="h-5 w-5 text-primary" />
+                      <span className="text-primary font-medium">Devamı için tıklayın</span>
+                    </a>
                   </div>
                 );
               }
