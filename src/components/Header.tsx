@@ -37,14 +37,14 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-white">
       <div className="container mx-auto px-4">
-        <div className="flex h-20 items-center justify-between">
-          <Link to="/" className="flex items-center space-x-3">
+        <div className="flex h-16 items-center justify-between">
+          <Link to="/" className="flex items-center space-x-2">
             <img 
               src={tuboderLogo} 
               alt="TUBODER Logo" 
-              className="h-14 w-14 rounded-full object-cover"
+              className="h-10 w-10 rounded-full object-cover"
             />
-            <div className="flex flex-col">
+            <div className="flex flex-col leading-tight">
               <div className="text-2xl font-bold text-primary">TUBODER</div>
               <div className="text-xs font-medium text-primary/80 tracking-wide">BİRLİKTE DAHA GÜÇLÜYÜZ</div>
             </div>
