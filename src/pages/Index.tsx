@@ -9,6 +9,7 @@ import Autoplay from 'embla-carousel-autoplay';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { transformGoogleDriveUrl } from '@/lib/utils';
+import tuboderLogo from '@/assets/tuboder-logo.jpeg';
 
 const Index = () => {
   const { t, language } = useLanguage();
@@ -41,31 +42,8 @@ const Index = () => {
     },
   });
 
-  const { data: latestNews = [] } = useQuery({
-    queryKey: ['latest-news'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('news')
-        .select('*')
-        .eq('is_published', true)
-        .order('published_date', { ascending: false })
-        .limit(4);
-      
-      if (error) throw error;
-      return data || [];
-    },
-  });
-
   const getBosniaTitle = (item: any) => {
     return language === 'tr' ? item.title_tr : language === 'en' ? item.title_en : item.title_bs;
-  };
-
-  const getNewsTitle = (item: any) => {
-    return language === 'tr' ? item.title_tr : language === 'en' ? item.title_en : item.title_bs;
-  };
-
-  const getNewsDescription = (item: any) => {
-    return language === 'tr' ? item.description_tr : language === 'en' ? item.description_en : item.description_bs;
   };
 
   return (
@@ -142,55 +120,20 @@ const Index = () => {
               )}
             </div>
 
-            {/* 2. Son Haberler */}
+            {/* 2. Dernek Logosu */}
             <div className="space-y-4">
               <h3 className="text-xl font-bold text-center text-primary">
-                {language === 'tr' ? 'Son Haberler' : language === 'en' ? 'Latest News' : 'Najnovije Vijesti'}
+                {language === 'tr' ? 'Dernek Logosu' : language === 'en' ? 'Association Logo' : 'Logo Udruženja'}
               </h3>
-              {latestNews.length > 0 ? (
-                <Carousel
-                  opts={{
-                    align: 'start',
-                    loop: true,
-                  }}
-                  plugins={[
-                    Autoplay({
-                      delay: 4000,
-                    }),
-                  ]}
-                  className="w-full"
-                >
-                  <CarouselContent>
-                    {latestNews.map((news) => (
-                      <CarouselItem key={news.id}>
-                        <Link to="/news">
-                          <Card className="shadow-elegant hover:shadow-glow transition-all cursor-pointer overflow-hidden">
-                            <CardContent className="p-0">
-                              {news.image_url && (
-                                <img 
-                                  src={transformGoogleDriveUrl(news.image_url)} 
-                                  alt={getNewsTitle(news)} 
-                                  className="w-full aspect-[4/3] object-cover"
-                                />
-                              )}
-                              <div className="p-4">
-                                <h4 className="font-bold text-sm mb-1 line-clamp-1">{getNewsTitle(news)}</h4>
-                                <p className="text-xs text-muted-foreground line-clamp-2">{getNewsDescription(news)}</p>
-                              </div>
-                            </CardContent>
-                          </Card>
-                        </Link>
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                </Carousel>
-              ) : (
-                <Card className="shadow-elegant">
-                  <CardContent className="p-6 aspect-[4/3] flex items-center justify-center text-muted-foreground text-center">
-                    {language === 'tr' ? 'Henüz haber yok' : language === 'en' ? 'No news yet' : 'Nema vijesti'}
-                  </CardContent>
-                </Card>
-              )}
+              <Card className="shadow-elegant overflow-hidden">
+                <CardContent className="p-0 aspect-[4/3] flex items-center justify-center bg-white">
+                  <img 
+                    src={tuboderLogo}
+                    alt="TUBODER Logo" 
+                    className="w-3/4 h-auto object-contain"
+                  />
+                </CardContent>
+              </Card>
             </div>
 
             {/* 3. Reklamlar */}
