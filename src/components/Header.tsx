@@ -10,7 +10,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useLanguage } from '@/contexts/LanguageContext';
-import tuboderLogo from '@/assets/tuboder-logo.jpeg';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,19 +34,11 @@ const Header = () => {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-white">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           <Link to="/" className="flex items-center space-x-2">
-            <img 
-              src={tuboderLogo} 
-              alt="TUBODER Logo" 
-              className="h-10 w-10 rounded-full object-cover"
-            />
-            <div className="flex flex-col leading-tight">
-              <div className="text-2xl font-bold text-primary">TUBODER</div>
-              <div className="text-xs font-medium text-primary/80 tracking-wide">BİRLİKTE DAHA GÜÇLÜYÜZ</div>
-            </div>
+            <div className="text-2xl font-bold text-primary">TUBODER</div>
           </Link>
 
           {/* Desktop Navigation */}
