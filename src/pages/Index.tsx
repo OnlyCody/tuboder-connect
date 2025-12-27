@@ -128,7 +128,7 @@ const Index = () => {
               <Card className="shadow-elegant overflow-hidden">
                 <CardContent className="p-0 aspect-[4/3] flex items-center justify-center bg-white">
                   <img 
-                    src={transformGoogleDriveUrl("https://drive.google.com/file/d/1LwAeRk4gKiLsT-7fOES3zHy0puofe-Do/view?usp=sharing")}
+                    src="https://drive.usercontent.google.com/download?id=1LwAeRk4gKiLsT-7fOES3zHy0puofe-Do&authuser=0"
                     alt="TUBODER Logo" 
                     className="w-3/4 h-auto object-contain"
                   />
