@@ -9,6 +9,7 @@ import Autoplay from 'embla-carousel-autoplay';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { transformGoogleDriveUrl } from '@/lib/utils';
+import tuboderMainLogo from '@/assets/tuboder-main-logo.png';
 
 
 const Index = () => {
@@ -128,7 +129,7 @@ const Index = () => {
               <Card className="shadow-elegant overflow-hidden">
                 <CardContent className="p-0 aspect-[4/3] flex items-center justify-center bg-white">
                   <img 
-                    src="https://drive.usercontent.google.com/download?id=1LwAeRk4gKiLsT-7fOES3zHy0puofe-Do&authuser=0"
+                    src={tuboderMainLogo}
                     alt="TUBODER Logo" 
                     className="w-3/4 h-auto object-contain"
                   />
