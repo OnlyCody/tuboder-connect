@@ -17,6 +17,7 @@ import {
   GraduationCap, 
   ShoppingBag, 
   Palette,
+  Scissors,
   LucideIcon
 } from 'lucide-react';
 
@@ -32,6 +33,7 @@ const iconMap: Record<string, LucideIcon> = {
   ShoppingBag,
   Palette,
   Building2,
+  Scissors,
 };
 
 const getIcon = (iconName: string | null): LucideIcon => {
