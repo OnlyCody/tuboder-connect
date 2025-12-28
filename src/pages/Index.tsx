@@ -71,146 +71,144 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Opening Invitation Banner - Geçici, açılıştan sonra kaldırılacak */}
+      {/* Main Content Section - Davetiye + 3 Sütun */}
       <section className="py-8 bg-gradient-to-r from-primary/5 via-secondary/10 to-primary/5">
         <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto">
-            <Card className="shadow-elegant overflow-hidden border-2 border-primary/20 hover:border-primary/40 transition-colors">
-              <CardContent className="p-0">
-                <img 
-                  src={openingInvitation}
-                  alt="TUBODER Açılış Davetiyesi" 
-                  className="w-full h-auto object-contain"
-                />
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Three Column Section */}
-      <section className="bg-secondary/20 py-8">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             
-            {/* 1. Bosna Hersek Tanıtımı */}
-            <div className="space-y-4">
-              <h3 className="text-xl font-bold text-center text-primary">
-                {language === 'tr' ? 'Bosna Hersek' : language === 'en' ? 'Bosnia Herzegovina' : 'Bosna i Hercegovina'}
-              </h3>
-              {bosniaImages.length > 0 ? (
-                <Carousel
-                  opts={{
-                    align: 'start',
-                    loop: true,
-                  }}
-                  plugins={[
-                    Autoplay({
-                      delay: 3500,
-                    }),
-                  ]}
-                  className="w-full"
-                >
-                  <CarouselContent>
-                    {bosniaImages.map((item) => (
-                      <CarouselItem key={item.id}>
-                        <Card className="shadow-elegant overflow-hidden">
-                          <CardContent className="p-0 relative">
-                            <img 
-                              src={transformGoogleDriveUrl(item.image_url)} 
-                              alt={getBosniaTitle(item)} 
-                              className="w-full aspect-[4/3] object-cover"
-                            />
-                            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-                              <p className="text-white font-semibold text-lg">{getBosniaTitle(item)}</p>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                </Carousel>
-              ) : (
-                <Card className="shadow-elegant">
-                  <CardContent className="p-6 aspect-[4/3] flex items-center justify-center text-muted-foreground text-center">
-                    {language === 'tr' ? 'Resim eklenmemiş' : language === 'en' ? 'No images added' : 'Nema slika'}
-                  </CardContent>
-                </Card>
-              )}
-            </div>
-
-            {/* 2. Dernek Logosu */}
-            <div className="space-y-4">
-              <h3 className="text-xl font-bold text-center text-primary">
-                {language === 'tr' ? 'Dernek Logosu' : language === 'en' ? 'Association Logo' : 'Logo Udruženja'}
-              </h3>
-              <Card className="shadow-elegant overflow-hidden">
-                <CardContent className="p-0 aspect-[4/3] flex items-center justify-center bg-white">
+            {/* Sol: Açılış Davetiyesi - Geçici, açılıştan sonra kaldırılacak */}
+            <div>
+              <Card className="shadow-elegant overflow-hidden border-2 border-primary/20 hover:border-primary/40 transition-colors h-full">
+                <CardContent className="p-0 h-full flex items-center justify-center">
                   <img 
-                    src={tuboderMainLogo}
-                    alt="TUBODER Logo" 
-                    className="w-3/4 h-auto object-contain"
+                    src={openingInvitation}
+                    alt="TUBODER Açılış Davetiyesi" 
+                    className="w-full h-auto object-contain"
                   />
                 </CardContent>
               </Card>
             </div>
 
-            {/* 3. Reklamlar */}
-            <div className="space-y-4">
-              <h3 className="text-xl font-bold text-center text-primary">
-                {language === 'tr' ? 'Reklamlar' : language === 'en' ? 'Advertisements' : 'Reklame'}
-              </h3>
-              <Carousel
-                opts={{
-                  align: 'start',
-                  loop: true,
-                }}
-                plugins={[
-                  Autoplay({
-                    delay: 5000,
-                  }),
-                ]}
-                className="w-full"
-              >
-                <CarouselContent>
-                  {carouselItems.length > 0 ? (
-                    carouselItems.map((item) => {
-                      const title = language === 'tr' ? item.title_tr : language === 'en' ? item.title_en : item.title_bs;
-                      const description = language === 'tr' ? item.description_tr : language === 'en' ? item.description_en : item.description_bs;
-                      
-                      return (
+            {/* Sağ: Bosna Hersek, Dernek Logosu, Reklamlar */}
+            <div className="space-y-6">
+              
+              {/* 1. Bosna Hersek Tanıtımı */}
+              <div className="space-y-3">
+                <h3 className="text-lg font-bold text-center text-primary">
+                  {language === 'tr' ? 'Bosna Hersek' : language === 'en' ? 'Bosnia Herzegovina' : 'Bosna i Hercegovina'}
+                </h3>
+                {bosniaImages.length > 0 ? (
+                  <Carousel
+                    opts={{
+                      align: 'start',
+                      loop: true,
+                    }}
+                    plugins={[
+                      Autoplay({
+                        delay: 3500,
+                      }),
+                    ]}
+                    className="w-full"
+                  >
+                    <CarouselContent>
+                      {bosniaImages.map((item) => (
                         <CarouselItem key={item.id}>
                           <Card className="shadow-elegant overflow-hidden">
-                            <CardContent className="p-0">
-                              {item.image_url && (
+                            <CardContent className="p-0 relative">
                               <img 
-                                  src={transformGoogleDriveUrl(item.image_url)} 
-                                  alt={title} 
-                                  className="w-full aspect-[4/3] object-cover"
-                                />
-                              )}
-                              <div className="p-4">
-                                <h4 className="font-bold text-sm mb-1 line-clamp-1">{title}</h4>
-                                <p className="text-xs text-muted-foreground line-clamp-2">{description}</p>
+                                src={transformGoogleDriveUrl(item.image_url)} 
+                                alt={getBosniaTitle(item)} 
+                                className="w-full aspect-video object-cover"
+                              />
+                              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3">
+                                <p className="text-white font-semibold text-base">{getBosniaTitle(item)}</p>
                               </div>
                             </CardContent>
                           </Card>
                         </CarouselItem>
-                      );
-                    })
-                  ) : (
-                    <CarouselItem>
-                      <Card className="shadow-elegant">
-                        <CardContent className="p-6 aspect-[4/3] flex items-center justify-center text-muted-foreground text-center">
-                          {language === 'tr' ? 'Bu alana reklam verebilirsiniz' : language === 'en' ? 'You can advertise here' : 'Možete oglašavati ovdje'}
-                        </CardContent>
-                      </Card>
-                    </CarouselItem>
-                  )}
-                </CarouselContent>
-              </Carousel>
-            </div>
+                      ))}
+                    </CarouselContent>
+                  </Carousel>
+                ) : (
+                  <Card className="shadow-elegant">
+                    <CardContent className="p-4 aspect-video flex items-center justify-center text-muted-foreground text-center">
+                      {language === 'tr' ? 'Resim eklenmemiş' : language === 'en' ? 'No images added' : 'Nema slika'}
+                    </CardContent>
+                  </Card>
+                )}
+              </div>
 
+              {/* 2. Dernek Logosu ve Reklamlar - Yan yana */}
+              <div className="grid grid-cols-2 gap-4">
+                {/* Dernek Logosu */}
+                <div className="space-y-2">
+                  <h3 className="text-sm font-bold text-center text-primary">
+                    {language === 'tr' ? 'Dernek Logosu' : language === 'en' ? 'Association Logo' : 'Logo Udruženja'}
+                  </h3>
+                  <Card className="shadow-elegant overflow-hidden">
+                    <CardContent className="p-0 aspect-square flex items-center justify-center bg-white">
+                      <img 
+                        src={tuboderMainLogo}
+                        alt="TUBODER Logo" 
+                        className="w-3/4 h-auto object-contain"
+                      />
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Reklamlar */}
+                <div className="space-y-2">
+                  <h3 className="text-sm font-bold text-center text-primary">
+                    {language === 'tr' ? 'Reklamlar' : language === 'en' ? 'Advertisements' : 'Reklame'}
+                  </h3>
+                  <Carousel
+                    opts={{
+                      align: 'start',
+                      loop: true,
+                    }}
+                    plugins={[
+                      Autoplay({
+                        delay: 5000,
+                      }),
+                    ]}
+                    className="w-full"
+                  >
+                    <CarouselContent>
+                      {carouselItems.length > 0 ? (
+                        carouselItems.map((item) => {
+                          const title = language === 'tr' ? item.title_tr : language === 'en' ? item.title_en : item.title_bs;
+                          
+                          return (
+                            <CarouselItem key={item.id}>
+                              <Card className="shadow-elegant overflow-hidden">
+                                <CardContent className="p-0">
+                                  {item.image_url && (
+                                    <img 
+                                      src={transformGoogleDriveUrl(item.image_url)} 
+                                      alt={title} 
+                                      className="w-full aspect-square object-cover"
+                                    />
+                                  )}
+                                </CardContent>
+                              </Card>
+                            </CarouselItem>
+                          );
+                        })
+                      ) : (
+                        <CarouselItem>
+                          <Card className="shadow-elegant">
+                            <CardContent className="p-4 aspect-square flex items-center justify-center text-muted-foreground text-center text-xs">
+                              {language === 'tr' ? 'Reklam alanı' : language === 'en' ? 'Ad space' : 'Prostor za oglase'}
+                            </CardContent>
+                          </Card>
+                        </CarouselItem>
+                      )}
+                    </CarouselContent>
+                  </Carousel>
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
       </section>
