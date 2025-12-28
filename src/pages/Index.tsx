@@ -10,6 +10,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { transformGoogleDriveUrl } from '@/lib/utils';
 import tuboderMainLogo from '@/assets/tuboder-main-logo.png';
+import openingInvitation from '@/assets/opening-invitation.jpeg';
 
 
 const Index = () => {
@@ -66,6 +67,23 @@ const Index = () => {
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Opening Invitation Banner - Geçici, açılıştan sonra kaldırılacak */}
+      <section className="py-8 bg-gradient-to-r from-primary/5 via-secondary/10 to-primary/5">
+        <div className="container mx-auto px-4">
+          <div className="max-w-2xl mx-auto">
+            <Card className="shadow-elegant overflow-hidden border-2 border-primary/20 hover:border-primary/40 transition-colors">
+              <CardContent className="p-0">
+                <img 
+                  src={openingInvitation}
+                  alt="TUBODER Açılış Davetiyesi" 
+                  className="w-full h-auto object-contain"
+                />
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
