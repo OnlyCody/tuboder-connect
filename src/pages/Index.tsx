@@ -74,10 +74,10 @@ const Index = () => {
       {/* Main Content Section - Davetiye + 3 Sütun */}
       <section className="py-8 bg-gradient-to-r from-primary/5 via-secondary/10 to-primary/5">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             
             {/* Sol: Açılış Davetiyesi - Geçici, açılıştan sonra kaldırılacak */}
-            <div className="lg:col-span-2">
+            <div>
               <Card className="shadow-elegant overflow-hidden border-2 border-primary/20 hover:border-primary/40 transition-colors h-full">
                 <CardContent className="p-0 h-full flex items-center justify-center">
                   <img 
@@ -90,7 +90,7 @@ const Index = () => {
             </div>
 
             {/* Sağ: Bosna Hersek, Dernek Logosu, Reklamlar */}
-            <div className="lg:col-span-3 space-y-6">
+            <div className="space-y-6">
               
               {/* 1. Bosna Hersek Tanıtımı */}
               <div className="space-y-3">
