@@ -1,16 +1,16 @@
 import MainLayout from '@/components/layout/MainLayout';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Calendar, MapPin, Instagram } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Calendar, MapPin, Instagram, Loader2 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { format } from 'date-fns';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 // Instagram post ID'sini URL'den çıkaran fonksiyon
 const extractInstagramPostId = (url: string): string | null => {
   if (!url) return null;
-  // https://www.instagram.com/p/POST_ID/ veya https://www.instagram.com/reel/POST_ID/
   const match = url.match(/instagram\.com\/(?:p|reel)\/([A-Za-z0-9_-]+)/);
   return match ? match[1] : null;
 };
@@ -20,14 +20,12 @@ const InstagramEmbed = ({ url }: { url: string }) => {
   const postId = extractInstagramPostId(url);
 
   useEffect(() => {
-    // Instagram embed script'ini yükle
     if (postId && typeof window !== 'undefined') {
       const script = document.createElement('script');
       script.src = '//www.instagram.com/embed.js';
       script.async = true;
       document.body.appendChild(script);
 
-      // Script yüklendikten sonra embed'i işle
       script.onload = () => {
         if ((window as any).instgrm) {
           (window as any).instgrm.Embeds.process();
@@ -35,7 +33,6 @@ const InstagramEmbed = ({ url }: { url: string }) => {
       };
 
       return () => {
-        // Cleanup
         if (script.parentNode) {
           script.parentNode.removeChild(script);
         }
@@ -92,8 +89,11 @@ const InstagramEmbed = ({ url }: { url: string }) => {
   );
 };
 
+const ITEMS_PER_PAGE = 6;
+
 const Events = () => {
   const { t, language } = useLanguage();
+  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
 
   const { data: events = [], isLoading } = useQuery({
     queryKey: ['events'],
@@ -108,6 +108,13 @@ const Events = () => {
       return data || [];
     },
   });
+
+  const visibleEvents = events.slice(0, visibleCount);
+  const hasMore = visibleCount < events.length;
+
+  const loadMore = () => {
+    setVisibleCount(prev => prev + ITEMS_PER_PAGE);
+  };
 
   if (isLoading) {
     return (
@@ -132,12 +139,11 @@ const Events = () => {
               <p className="text-muted-foreground">Henüz etkinlik bulunmamaktadır.</p>
             </div>
           ) : (
-            events.map((event) => {
+            visibleEvents.map((event) => {
               const title = language === 'tr' ? event.title_tr : language === 'en' ? event.title_en : event.title_bs;
               const description = language === 'tr' ? event.description_tr : language === 'en' ? event.description_en : event.description_bs;
               const location = language === 'tr' ? event.location_tr : language === 'en' ? event.location_en : event.location_bs;
               
-              // Instagram-only etkinlik - sadece embed göster
               if (event.is_instagram_only && event.instagram_url) {
                 return (
                   <div key={event.id} className="w-full rounded-lg overflow-hidden bg-card shadow-elegant hover:shadow-glow hover:scale-[1.02] transition-all duration-300 cursor-pointer">
@@ -157,7 +163,6 @@ const Events = () => {
                 );
               }
               
-              // Normal etkinlik
               return (
                 <Card key={event.id} className="shadow-elegant hover:shadow-glow transition-shadow">
                   {event.image_url && (
@@ -187,6 +192,14 @@ const Events = () => {
             })
           )}
         </div>
+
+        {hasMore && (
+          <div className="text-center mt-10">
+            <Button onClick={loadMore} variant="outline" size="lg">
+              {language === 'tr' ? 'Daha Fazla Yükle' : language === 'en' ? 'Load More' : 'Učitaj više'}
+            </Button>
+          </div>
+        )}
       </div>
     </MainLayout>
   );
