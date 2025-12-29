@@ -23,6 +23,16 @@ const Board = () => {
     },
   });
 
+  // Group members by position
+  const groupedMembers = boardMembers.reduce((acc, member) => {
+    const position = language === 'tr' ? member.position_tr : language === 'en' ? member.position_en : member.position_bs;
+    if (!acc[position]) {
+      acc[position] = [];
+    }
+    acc[position].push(member);
+    return acc;
+  }, {} as Record<string, typeof boardMembers>);
+
   if (isLoading) {
     return (
       <MainLayout>
@@ -51,25 +61,30 @@ const Board = () => {
             <p className="text-muted-foreground">Henüz yönetim kurulu üyesi bulunmamaktadır.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            {boardMembers.map((member) => {
-              const name = language === 'tr' ? member.name_tr : language === 'en' ? member.name_en : member.name_bs;
-              const position = language === 'tr' ? member.position_tr : language === 'en' ? member.position_en : member.position_bs;
-              
-              return (
-                <Card key={member.id} className="rounded-2xl border border-border/50 shadow-sm hover:shadow-md transition-shadow">
-                  <CardContent className="p-8 text-center">
-                    {member.photo_url && (
-                      <Avatar className="h-20 w-20 mx-auto mb-4 border-2 border-primary/20">
-                        <AvatarImage src={member.photo_url} />
-                      </Avatar>
-                    )}
-                    <h3 className="text-xl font-bold text-foreground mb-2">{name}</h3>
-                    <p className="text-primary">{position}</p>
-                  </CardContent>
-                </Card>
-              );
-            })}
+          <div className="max-w-4xl mx-auto space-y-10">
+            {Object.entries(groupedMembers).map(([position, members]) => (
+              <div key={position}>
+                <h2 className="text-xl font-semibold text-primary text-center mb-6">{position}</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {members.map((member) => {
+                    const name = language === 'tr' ? member.name_tr : language === 'en' ? member.name_en : member.name_bs;
+                    
+                    return (
+                      <Card key={member.id} className="rounded-2xl border border-border/50 shadow-sm hover:shadow-md transition-shadow">
+                        <CardContent className="p-6 text-center">
+                          {member.photo_url && (
+                            <Avatar className="h-16 w-16 mx-auto mb-3 border-2 border-primary/20">
+                              <AvatarImage src={member.photo_url} />
+                            </Avatar>
+                          )}
+                          <h3 className="text-lg font-bold text-foreground">{name}</h3>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>
