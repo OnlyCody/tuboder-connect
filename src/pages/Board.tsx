@@ -54,11 +54,12 @@ const Board = () => {
                 <Card key={member.id} className="overflow-hidden shadow-elegant hover:shadow-glow transition-shadow">
                   <CardContent className="p-6">
                     <div className="flex flex-col items-center text-center">
-                      {member.photo_url && (
-                        <Avatar className="h-32 w-32 mb-4">
-                          <AvatarImage src={member.photo_url} />
-                        </Avatar>
-                      )}
+                      <Avatar className="h-32 w-32 mb-4">
+                        <AvatarImage src={member.photo_url || undefined} />
+                        <AvatarFallback className="text-2xl bg-primary text-primary-foreground">
+                          {name.split(' ').map(n => n[0]).join('')}
+                        </AvatarFallback>
+                      </Avatar>
                       <h3 className="text-xl font-semibold mb-2">{name}</h3>
                       <p className="text-muted-foreground mb-3">{position}</p>
                       {bio && <p className="text-sm text-muted-foreground">{bio}</p>}
