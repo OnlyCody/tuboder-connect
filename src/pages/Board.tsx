@@ -65,12 +65,12 @@ const Board = () => {
             {Object.entries(groupedMembers).map(([position, members]) => (
               <div key={position}>
                 <h2 className="text-xl font-semibold text-primary text-center mb-6">{position}</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="flex flex-wrap justify-center gap-4">
                   {members.map((member) => {
                     const name = language === 'tr' ? member.name_tr : language === 'en' ? member.name_en : member.name_bs;
                     
                     return (
-                      <Card key={member.id} className="rounded-2xl border border-border/50 shadow-sm hover:shadow-md transition-shadow">
+                      <Card key={member.id} className="w-full md:w-[calc(50%-0.5rem)] max-w-sm rounded-2xl border border-border/50 shadow-sm hover:shadow-md transition-shadow">
                         <CardContent className="p-6 text-center">
                           {member.photo_url && (
                             <Avatar className="h-16 w-16 mx-auto mb-3 border-2 border-primary/20">
