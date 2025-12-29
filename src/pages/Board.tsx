@@ -3,7 +3,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Users } from 'lucide-react';
 
 const Board = () => {
@@ -22,16 +22,6 @@ const Board = () => {
       return data || [];
     },
   });
-
-  // Group members by position
-  const groupedMembers = boardMembers.reduce((acc, member) => {
-    const position = language === 'tr' ? member.position_tr : language === 'en' ? member.position_en : member.position_bs;
-    if (!acc[position]) {
-      acc[position] = [];
-    }
-    acc[position].push(member);
-    return acc;
-  }, {} as Record<string, typeof boardMembers>);
 
   if (isLoading) {
     return (
@@ -61,32 +51,25 @@ const Board = () => {
             <p className="text-muted-foreground">Henüz yönetim kurulu üyesi bulunmamaktadır.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {Object.entries(groupedMembers).map(([position, members]) => (
-              <Card key={position} className="overflow-hidden border-t-4 border-t-primary shadow-elegant hover:shadow-glow transition-all duration-300">
-                <CardHeader className="bg-muted/30 pb-3">
-                  <CardTitle className="text-lg text-primary text-center">{position}</CardTitle>
-                </CardHeader>
-                <CardContent className="pt-4">
-                  <div className="space-y-3">
-                    {members.map((member) => {
-                      const name = language === 'tr' ? member.name_tr : language === 'en' ? member.name_en : member.name_bs;
-                      
-                      return (
-                        <div key={member.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/50 transition-colors">
-                          {member.photo_url && (
-                            <Avatar className="h-10 w-10 border-2 border-primary/20">
-                              <AvatarImage src={member.photo_url} />
-                            </Avatar>
-                          )}
-                          <span className="text-foreground font-medium">{name}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            {boardMembers.map((member) => {
+              const name = language === 'tr' ? member.name_tr : language === 'en' ? member.name_en : member.name_bs;
+              const position = language === 'tr' ? member.position_tr : language === 'en' ? member.position_en : member.position_bs;
+              
+              return (
+                <Card key={member.id} className="rounded-2xl border border-border/50 shadow-sm hover:shadow-md transition-shadow">
+                  <CardContent className="p-8 text-center">
+                    {member.photo_url && (
+                      <Avatar className="h-20 w-20 mx-auto mb-4 border-2 border-primary/20">
+                        <AvatarImage src={member.photo_url} />
+                      </Avatar>
+                    )}
+                    <h3 className="text-xl font-bold text-foreground mb-2">{name}</h3>
+                    <p className="text-primary">{position}</p>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         )}
       </div>
