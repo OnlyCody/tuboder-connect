@@ -23,15 +23,26 @@ const Board = () => {
     },
   });
 
-  // Group members by position
+  // Group members by position - use position_tr as key for grouping
   const groupedMembers = boardMembers.reduce((acc, member) => {
-    const position = language === 'tr' ? member.position_tr : language === 'en' ? member.position_en : member.position_bs;
-    if (!acc[position]) {
-      acc[position] = [];
+    const positionKey = member.position_tr; // Use Turkish as key for consistent grouping
+    if (!acc[positionKey]) {
+      acc[positionKey] = [];
     }
-    acc[position].push(member);
+    acc[positionKey].push(member);
     return acc;
   }, {} as Record<string, typeof boardMembers>);
+
+  // Get display position based on language
+  const getDisplayPosition = (member: typeof boardMembers[0]) => {
+    if (language === 'tr') {
+      return `${member.position_tr} / ${member.position_bs}`;
+    } else if (language === 'en') {
+      return member.position_en;
+    } else {
+      return member.position_bs;
+    }
+  };
 
   if (isLoading) {
     return (
@@ -62,9 +73,9 @@ const Board = () => {
           </div>
         ) : (
           <div className="max-w-4xl mx-auto space-y-10">
-            {Object.entries(groupedMembers).map(([position, members]) => (
-              <div key={position}>
-                <h2 className="text-xl font-semibold text-primary text-center mb-6">{position}</h2>
+            {Object.entries(groupedMembers).map(([positionKey, members]) => (
+              <div key={positionKey}>
+                <h2 className="text-xl font-semibold text-primary text-center mb-6">{getDisplayPosition(members[0])}</h2>
                 <div className="flex flex-wrap justify-center gap-4">
                   {members.map((member) => {
                     const name = language === 'tr' ? member.name_tr : language === 'en' ? member.name_en : member.name_bs;
