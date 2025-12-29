@@ -1,6 +1,7 @@
 import MainLayout from '@/components/layout/MainLayout';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Calendar } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
@@ -9,9 +10,12 @@ import { format } from 'date-fns';
 import { transformGoogleDriveUrl } from '@/lib/utils';
 import { useState } from 'react';
 
+const ITEMS_PER_PAGE = 6;
+
 const News = () => {
   const { t, language } = useLanguage();
   const [selectedNews, setSelectedNews] = useState<any>(null);
+  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
 
   const { data: newsItems = [], isLoading } = useQuery({
     queryKey: ['news'],
@@ -26,6 +30,13 @@ const News = () => {
       return data || [];
     },
   });
+
+  const visibleNews = newsItems.slice(0, visibleCount);
+  const hasMore = visibleCount < newsItems.length;
+
+  const loadMore = () => {
+    setVisibleCount(prev => prev + ITEMS_PER_PAGE);
+  };
 
   if (isLoading) {
     return (
@@ -53,7 +64,7 @@ const News = () => {
               </CardContent>
             </Card>
           ) : (
-            newsItems.map((news) => {
+            visibleNews.map((news) => {
               const title = language === 'tr' ? news.title_tr : language === 'en' ? news.title_en : news.title_bs;
               const description = language === 'tr' ? news.description_tr : language === 'en' ? news.description_en : news.description_bs;
               
@@ -91,6 +102,14 @@ const News = () => {
             })
           )}
         </div>
+
+        {hasMore && (
+          <div className="text-center mt-10">
+            <Button onClick={loadMore} variant="outline" size="lg">
+              {language === 'tr' ? 'Daha Fazla Yükle' : language === 'en' ? 'Load More' : 'Učitaj više'}
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* News Detail Dialog */}
