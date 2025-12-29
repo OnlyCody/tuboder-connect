@@ -1,7 +1,6 @@
 import MainLayout from '@/components/layout/MainLayout';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Card, CardContent } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -22,6 +21,16 @@ const Board = () => {
     },
   });
 
+  // Group members by position
+  const groupedMembers = boardMembers.reduce((acc, member) => {
+    const position = language === 'tr' ? member.position_tr : language === 'en' ? member.position_en : member.position_bs;
+    if (!acc[position]) {
+      acc[position] = [];
+    }
+    acc[position].push(member);
+    return acc;
+  }, {} as Record<string, typeof boardMembers>);
+
   if (isLoading) {
     return (
       <MainLayout>
@@ -39,36 +48,36 @@ const Board = () => {
     <MainLayout>
       <div className="container mx-auto px-4 py-16">
         <h1 className="text-4xl font-bold text-center mb-12">{t('board.title')}</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {boardMembers.length === 0 ? (
-            <div className="col-span-full text-center py-12">
-              <p className="text-muted-foreground">Henüz yönetim kurulu üyesi bulunmamaktadır.</p>
-            </div>
-          ) : (
-            boardMembers.map((member) => {
-              const name = language === 'tr' ? member.name_tr : language === 'en' ? member.name_en : member.name_bs;
-              const position = language === 'tr' ? member.position_tr : language === 'en' ? member.position_en : member.position_bs;
-              const bio = language === 'tr' ? member.bio_tr : language === 'en' ? member.bio_en : member.bio_bs;
-              
-              return (
-                <Card key={member.id} className="overflow-hidden shadow-elegant hover:shadow-glow transition-shadow">
-                  <CardContent className="p-6">
-                    <div className="flex flex-col items-center text-center">
-                      {member.photo_url && (
-                        <Avatar className="h-32 w-32 mb-4">
-                          <AvatarImage src={member.photo_url} />
-                        </Avatar>
-                      )}
-                      <h3 className="text-xl font-semibold mb-2">{name}</h3>
-                      <p className="text-muted-foreground mb-3">{position}</p>
-                      {bio && <p className="text-sm text-muted-foreground">{bio}</p>}
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })
-          )}
-        </div>
+        
+        {boardMembers.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-muted-foreground">Henüz yönetim kurulu üyesi bulunmamaktadır.</p>
+          </div>
+        ) : (
+          <div className="max-w-4xl mx-auto space-y-10">
+            {Object.entries(groupedMembers).map(([position, members]) => (
+              <div key={position} className="text-center">
+                <h2 className="text-xl font-semibold text-primary mb-4">{position}</h2>
+                <div className="flex flex-wrap justify-center gap-x-8 gap-y-3">
+                  {members.map((member) => {
+                    const name = language === 'tr' ? member.name_tr : language === 'en' ? member.name_en : member.name_bs;
+                    
+                    return (
+                      <div key={member.id} className="flex items-center gap-3">
+                        {member.photo_url && (
+                          <Avatar className="h-10 w-10">
+                            <AvatarImage src={member.photo_url} />
+                          </Avatar>
+                        )}
+                        <span className="text-foreground font-medium">{name}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </MainLayout>
   );
