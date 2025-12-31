@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, Globe, User } from 'lucide-react';
+import tuboder2025Logo from '@/assets/tuboder-2025-logo.png';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import {
@@ -37,9 +38,12 @@ const Header = () => {
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
-          <Link to="/" className="flex flex-col">
-            <div className="text-2xl font-bold text-primary leading-tight">TUBODER</div>
-            <div className="text-[10px] text-muted-foreground tracking-wide">Birlikte Daha Güçlüyüz</div>
+          <Link to="/" className="flex items-center gap-2">
+            <img src={tuboder2025Logo} alt="TUBODER 2025" className="h-10 w-10 object-contain" />
+            <div className="flex flex-col">
+              <div className="text-2xl font-bold text-primary leading-tight">TUBODER</div>
+              <div className="text-[10px] text-muted-foreground tracking-wide">Birlikte Daha Güçlüyüz</div>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
