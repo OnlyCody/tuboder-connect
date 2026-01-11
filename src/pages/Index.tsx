@@ -72,57 +72,58 @@ const Index = () => {
       {/* Main Content Section */}
       <section className="py-8 bg-gradient-to-r from-primary/5 via-secondary/10 to-primary/5">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto space-y-6">
+          <div className="max-w-5xl mx-auto">
             
-            {/* 1. Bosna Hersek Tanıtımı */}
-            <div className="space-y-3">
-              <h3 className="text-lg font-bold text-center text-primary">
-                {language === 'tr' ? 'Bosna Hersek' : language === 'en' ? 'Bosnia Herzegovina' : 'Bosna i Hercegovina'}
-              </h3>
-              {bosniaImages.length > 0 ? (
-                <Carousel
-                  opts={{
-                    align: 'start',
-                    loop: true,
-                  }}
-                  plugins={[
-                    Autoplay({
-                      delay: 3500,
-                    }),
-                  ]}
-                  className="w-full"
-                >
-                  <CarouselContent>
-                    {bosniaImages.map((item) => (
-                      <CarouselItem key={item.id}>
-                        <Card className="shadow-elegant overflow-hidden">
-                          <CardContent className="p-0 relative">
-                            <img 
-                              src={transformGoogleDriveUrl(item.image_url)} 
-                              alt={getBosniaTitle(item)} 
-                              className="w-full aspect-video object-cover"
-                            />
-                            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3">
-                              <p className="text-white font-semibold text-base">{getBosniaTitle(item)}</p>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                </Carousel>
-              ) : (
-                <Card className="shadow-elegant">
-                  <CardContent className="p-4 aspect-video flex items-center justify-center text-muted-foreground text-center">
-                    {language === 'tr' ? 'Resim eklenmemiş' : language === 'en' ? 'No images added' : 'Nema slika'}
-                  </CardContent>
-                </Card>
-              )}
-            </div>
+            {/* Üç kutu yan yana */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              
+              {/* 1. Bosna Hersek Tanıtımı */}
+              <div className="space-y-2">
+                <h3 className="text-sm font-bold text-center text-primary">
+                  {language === 'tr' ? 'Bosna Hersek' : language === 'en' ? 'Bosnia Herzegovina' : 'Bosna i Hercegovina'}
+                </h3>
+                {bosniaImages.length > 0 ? (
+                  <Carousel
+                    opts={{
+                      align: 'start',
+                      loop: true,
+                    }}
+                    plugins={[
+                      Autoplay({
+                        delay: 3500,
+                      }),
+                    ]}
+                    className="w-full"
+                  >
+                    <CarouselContent>
+                      {bosniaImages.map((item) => (
+                        <CarouselItem key={item.id}>
+                          <Card className="shadow-elegant overflow-hidden">
+                            <CardContent className="p-0 relative">
+                              <img 
+                                src={transformGoogleDriveUrl(item.image_url)} 
+                                alt={getBosniaTitle(item)} 
+                                className="w-full aspect-square object-cover"
+                              />
+                              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
+                                <p className="text-white font-semibold text-xs">{getBosniaTitle(item)}</p>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        </CarouselItem>
+                      ))}
+                    </CarouselContent>
+                  </Carousel>
+                ) : (
+                  <Card className="shadow-elegant">
+                    <CardContent className="p-4 aspect-square flex items-center justify-center text-muted-foreground text-center text-xs">
+                      {language === 'tr' ? 'Resim eklenmemiş' : language === 'en' ? 'No images added' : 'Nema slika'}
+                    </CardContent>
+                  </Card>
+                )}
+              </div>
 
-            {/* 2. Dernek Logosu ve Reklamlar - Yan yana */}
-            <div className="grid grid-cols-2 gap-4">
-              {/* Dernek Logosu */}
+              {/* 2. Dernek Logosu */}
               <div className="space-y-2">
                 <h3 className="text-sm font-bold text-center text-primary">
                   {language === 'tr' ? 'Dernek Logosu' : language === 'en' ? 'Association Logo' : 'Logo Udruženja'}
@@ -138,7 +139,7 @@ const Index = () => {
                 </Card>
               </div>
 
-              {/* Reklamlar */}
+              {/* 3. Reklamlar */}
               <div className="space-y-2">
                 <h3 className="text-sm font-bold text-center text-primary">
                   {language === 'tr' ? 'Reklamlar' : language === 'en' ? 'Advertisements' : 'Reklame'}
@@ -188,6 +189,7 @@ const Index = () => {
                   </CarouselContent>
                 </Carousel>
               </div>
+
             </div>
 
           </div>
