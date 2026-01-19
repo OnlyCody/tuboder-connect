@@ -23,15 +23,19 @@ const Board = () => {
     },
   });
 
-  // Group members by position
+  // Group members by position (using TR as key for grouping)
   const groupedMembers = boardMembers.reduce((acc, member) => {
-    const position = language === 'tr' ? member.position_tr : language === 'en' ? member.position_en : member.position_bs;
-    if (!acc[position]) {
-      acc[position] = [];
+    const positionKey = member.position_tr; // Use TR as unique key for grouping
+    if (!acc[positionKey]) {
+      acc[positionKey] = {
+        position_tr: member.position_tr,
+        position_bs: member.position_bs,
+        members: []
+      };
     }
-    acc[position].push(member);
+    acc[positionKey].members.push(member);
     return acc;
-  }, {} as Record<string, typeof boardMembers>);
+  }, {} as Record<string, { position_tr: string; position_bs: string; members: typeof boardMembers }>);
 
   if (isLoading) {
     return (
@@ -62,11 +66,12 @@ const Board = () => {
           </div>
         ) : (
           <div className="max-w-4xl mx-auto space-y-10">
-            {Object.entries(groupedMembers).map(([position, members]) => (
-              <div key={position}>
-                <h2 className="text-xl font-semibold text-primary text-center mb-6">{position}</h2>
+            {Object.entries(groupedMembers).map(([key, group]) => (
+              <div key={key}>
+                <h2 className="text-xl font-semibold text-primary text-center mb-2">{group.position_tr}</h2>
+                <p className="text-md text-muted-foreground text-center mb-6">{group.position_bs}</p>
                 <div className="flex flex-wrap justify-center gap-4">
-                  {members.map((member) => {
+                  {group.members.map((member) => {
                     const name = language === 'tr' ? member.name_tr : language === 'en' ? member.name_en : member.name_bs;
                     
                     return (
